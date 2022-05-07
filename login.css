@@ -1,0 +1,52 @@
+#container{ /*양 옆 여백을 제외한 전체 내용 부분*/
+    margin: 30px auto; /*중앙 배치*/
+    width:900px; /*너비*/
+    background-color: #fff; /*배경 색상 - 흰색*/
+}
+
+header{ /*로고와 메뉴바가 위치하는 헤더 부분*/
+    margin: auto; /*중앙 배치*/
+    width: 100%; /*너비*/
+    height: 120px;/*높이*/
+}
+
+#logo{ /*로고 영역*/
+    float:left;/*왼쪽 정렬*/
+    width: 320px;/*너비*/
+    height: 90px;/*높이*/
+    padding:15px;/*상하좌우 여백*/
+}
+
+nav{
+    float:right;/*오른쪽 정렬*/
+    width: 450px;/*너비*/
+    height: 100px;/*높이*/
+    padding-top: 20px; /*윗 여백*/
+}
+
+ul {
+    list-style: none; /* 리스트 항목에 아무것도 매기지 않는다.*/
+}
+
+#topMenu >li {
+    float:left; /*왼쪽 정렬*/
+    position: relative;
+}
+
+#topMenu >li >a{
+    display: block;
+    font-size: 20px;
+    font-weight: 600; /*글자 굵기*/
+    padding:20px 30px;
+}
+
+.contents{
+    width: 100%;
+    margin-top: 80px;
+    
+}
+
+.login{
+    height: 380px;
+    background-image: url('login.png');
+}
