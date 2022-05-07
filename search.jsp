@@ -25,14 +25,15 @@
 </head>
 <body onload="initTmap();">
     <header>header not contents</header>
-    <main style="width: 500px;">
+    <main class="search">
         <form class="search_form">
-            <input type="text" placeholder="시작 위치를 입력하세요." name="start"><br>
-            <input type="text" placeholder="도착 위치를 입력하세요." name="end">
+            <div style="flex: 8;">
+                <input class="search_form_text" type="text" placeholder="시작 위치를 입력하세요." name="start">
+                <input class="search_form_text" type="text" placeholder="도착 위치를 입력하세요." name="end">
+            </div>
+            <button>검색</button>
         </form>
-        <div id="map">
-            
-        </div>
+        <div id="map"></div>
     </main>
 </body>
 </html>
