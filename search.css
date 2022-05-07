@@ -1,0 +1,12 @@
+.search_form{
+    width: fit-content;
+    margin : 20px auto 20px auto;
+    border: solid 1px green;
+}
+
+.map{
+    width: 400px;
+    height: 400px;
+    margin : 20px auto auto auto;
+    border: solid 1px red;
+}
