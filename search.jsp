@@ -32,6 +32,7 @@
                     scrollwheel : true
                 });
                 $("#search_btn").click(function(){
+                    //출발지 마커 찍기
                     marker_s = new Tmapv2.Marker(
 						{
 							position : new Tmapv2.LatLng(37.566567545861645,
@@ -41,15 +42,15 @@
 							map : map
 						});
 		
-				//도착
-				marker_e = new Tmapv2.Marker(
-						{
-							position : new Tmapv2.LatLng(37.403049076341794,
-									127.10331814639885),
-							icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
-							iconSize : new Tmapv2.Size(24, 38),
-							map : map
-						});
+                    //도착지 마커 찍기
+                    marker_e = new Tmapv2.Marker(
+                            {
+                                position : new Tmapv2.LatLng(37.403049076341794,
+                                        127.10331814639885),
+                                icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+                                iconSize : new Tmapv2.Size(24, 38),
+                                map : map
+                            });
                 })
                 
                 
