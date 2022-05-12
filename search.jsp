@@ -46,40 +46,33 @@
                         },
                         success:function(response){
                             var resultpoisData = response.searchPoiInfo.pois.poi;
-                            var markerArr = [];
-
+                            var markerArr = []; //검색된 값
+                            var positionBounds = new Tmapv2.LatLngBounds();	//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성    
+                            var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
+                            var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
+                            var name = resultpoisData[0].name; //좌표의 실제 명칭
                             
-                            var positionBounds = new Tmapv2.LatLngBounds();		//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성
-                                
-                                var noorLat = Number(resultpoisData[0].noorLat);
-                                var noorLon = Number(resultpoisData[0].noorLon);
-                                var name = resultpoisData[0].name;
-                                
-                                var pointCng = new Tmapv2.Point(noorLon, noorLat);
-                                var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-                                
-                                var lat = projectionCng._lat;
-                                var lon = projectionCng._lng;
-                                s_x = lat;
-                                s_x = lon;
-                                var markerPosition = new Tmapv2.LatLng(lat, lon);
-                                
-                                marker = new Tmapv2.Marker({
-                                    position : markerPosition,
-                                    icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png",
-                                    iconSize : new Tmapv2.Size(24, 38),
-                                    title : name,
-                                    map:map
-                                });
-                                
-                                
-                                document.getElementById("start").value = name;
-                                markerArr.push(marker_s);
-                                positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
+                            var pointCng = new Tmapv2.Point(noorLon, noorLat);
+                            var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
                             
+                            var lat = projectionCng._lat;
+                            var lon = projectionCng._lng;
+                            s_x = lat;
+                            s_x = lon;
+                            var markerPosition = new Tmapv2.LatLng(lat, lon);
+                            //시작 마커
+                            marker = new Tmapv2.Marker({
+                                position : markerPosition,
+                                icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png",
+                                iconSize : new Tmapv2.Size(24, 38),
+                                title : name, //주소이름
+                                map:map
+                            });
+                            document.getElementById("start").value = name;// 시작 주소 검색을 상세하게 나타내기
+                            markerArr.push(marker_s); //마커를 누르면 상세 주소
+                            positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
                             map.panToBounds(positionBounds);	// 확장된 bounds의 중심으로 이동시키기
-                            map.zoomOut();
-                            
+                            map.zoomOut();  
                         },
                         error:function(request,status,error){
                             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -99,47 +92,42 @@
                         },
                         success:function(response){
                             var resultpoisData = response.searchPoiInfo.pois.poi;
-                            var markerArr = [];
-                           
-                            var positionBounds = new Tmapv2.LatLngBounds();		//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성
-                                
-                                var noorLat = Number(resultpoisData[0].noorLat);
-                                var noorLon = Number(resultpoisData[0].noorLon);
-                                var name = resultpoisData[0].name;
-                                
-                                var pointCng = new Tmapv2.Point(noorLon, noorLat);
-                                var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-                                
-                                var lat = projectionCng._lat;
-                                var lon = projectionCng._lng;
-                                e_x = lat;
-                                e_x = lon;
-                                var markerPosition = new Tmapv2.LatLng(lat, lon);
-                                
-                                marker_e = new Tmapv2.Marker({
-                                    position : markerPosition,
-                                    icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png",
-                                    iconSize : new Tmapv2.Size(24, 38),
-                                    title : name,
-                                    map:map
-                                });
-                                
-                                
-                                document.getElementById("end").value = name;
-                                markerArr.push(marker_e);
-                                positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
+                            var markerArr = [];     //검색된 값        
+                            var positionBounds = new Tmapv2.LatLngBounds();		//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성     
+                            var noorLat = Number(resultpoisData[0].noorLat); //좌표의 경도
+                            var noorLon = Number(resultpoisData[0].noorLon); //좌표의 위도
+                            var name = resultpoisData[0].name; // 좌표의 실제 명칭
                             
+                            var pointCng = new Tmapv2.Point(noorLon, noorLat);
+                            var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+                            
+                            var lat = projectionCng._lat;
+                            var lon = projectionCng._lng;
+                            e_x = lat;
+                            e_x = lon;
+                            var markerPosition = new Tmapv2.LatLng(lat, lon);
+                            //도착 마커
+                            marker_e = new Tmapv2.Marker({
+                                position : markerPosition,
+                                icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png",
+                                iconSize : new Tmapv2.Size(24, 38),
+                                title : name, //주소 이름
+                                map:map
+                            });
+                            
+                            
+                            document.getElementById("end").value = name; //도착지점 검색을 상세하게 나타내기
+                            markerArr.push(marker_e); //마커를 누르면 상세 주소
+                            positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
                             map.panToBounds(positionBounds);	// 확장된 bounds의 중심으로 이동시키기
                             map.zoomOut();
-                            
+                        
                         },
                         error:function(request,status,error){
                             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                         }
                     });
-                })
-                
-                
+                })        
         }
     </script>
         
