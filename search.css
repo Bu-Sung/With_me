@@ -1,17 +1,33 @@
 .search{
-    margin : auto;
-    width: 400px;
+    margin : auto 30%;
 }
 
 .search_form{
     display: flex;
     width: 100%;
     margin : 20px auto 20px 0px;
-    background-color: rgb(255, 251, 188);;
+
 }
 
 .search_form_text{
-    display: block;
-    width:100%;
-    margin: 5px;
+    width:95%;
+    margin: 0.1em;
+    float: left;
+}
+.result{
+    width: 100%;
+    border: solid 1px gray;
+    background-color: rgb(228, 227, 227);
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+
+#search_btn{
+    width: 100%;
+    flex: 1;
+}
+
+#select_btn{
+    margin-bottom: 10%;
 }
