@@ -38,6 +38,7 @@
             });
           
             
+
             map.addListener("click", function onClick(evt) {
                 var mapLatLng = evt.latLng;
 
@@ -59,8 +60,7 @@
             });
             $("#input").click(function () {
                 var search = $('#text').val();
-
-                initmark();
+                initmark();//초기화
                 // 명칭으로 검색
                 $.ajax({
                     method: "GET",
@@ -79,13 +79,13 @@
                         var positionBounds = new Tmapv2.LatLngBounds();	//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성    
                         var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
                         var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
-
                         var pointCng = new Tmapv2.Point(noorLon, noorLat);
                         var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
 
                         var lat = projectionCng._lat;
                         var lon = projectionCng._lng;
-                        var name = reverseGeo(lon, lat); //새주소로 이름 변경
+                       var name = reverseGeo(lon, lat); //새주소로 이름 변경
+
                         var markerPosition = new Tmapv2.LatLng(lat, lon);
                         //마커
                         marker = new Tmapv2.Marker({
@@ -99,6 +99,7 @@
                         markerArr.push(marker); //마커를 누르면 상세 주소
                         map.setCenter(markerPosition);
                         
+
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -171,6 +172,7 @@
             });
             return newRoadAddr;
         }
+
     </script>
 </head>
 
@@ -327,6 +329,7 @@
   <!--  Google Maps Plugin    -->
   <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
   <script src="./assets/js/material-kit.min.js?v=3.0.2" type="text/javascript"></script>-->
+
 </body>
 
 </html>
