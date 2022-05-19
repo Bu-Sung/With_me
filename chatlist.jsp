@@ -15,7 +15,8 @@
         
         <%
 
-        request.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         String htmlchatname = request.getParameter("attend");
         String ALLchatname ="";
