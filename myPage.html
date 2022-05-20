@@ -80,7 +80,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12 mx-auto">
-            <div class="col-lg-8 col-md-8 mt-4 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+            <div class="col-lg-9 col-md-9 mt-4 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
                 <h2 class="mb-1" >My Page
                 <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                   <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
@@ -91,15 +91,14 @@
               </div>
             </div>
             <div class="row py-5">
-              <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+              <div class="col-lg-8 col-md-8 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <!--사용자명 가져오기-->
                   <h3 class="mb-0" id="user_name">사용자명</h3>
 
-                  <div class="d-block">
                     <!--'#'부분에 정보 수정 페이지 링크 걸기-->
-                    <button type="button" class="btn btn-sm btn-outline-info text-nowrap mb-0" onclick="location.href='#'">정보 수정</button>
-                  </div>
+                    <button type="button" class="btn btn-outline-info text-nowrap mb-0" data-toggle="modal" data-target="#exampleModalCenter" >정보 수정</button>
+                  
                 </div>
                 <p class="text-lg mb-0" id="phone_number">
                   <!--전화번호 입력-->
@@ -109,17 +108,32 @@
               </div>
             </div>
             <div class="row py-5">
-              <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-                <!--사용 리스트 임시-->
-                <!--사용 리스트 동적으로 받아와서 늘려줘야 함-->
-                <!--리스트 이름은 주소로-->
+              <div class="col-lg-8 col-md-8 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+                <!--사용 테이블 임시-->
+                <!--사용 테이블 동적으로 받아와서 늘려줘야 함-->
                 <h3>사용 내역 조회</h3>
-                <div class="list-group col-lg-8 col-md-8 col-sm-8 mx-auto">
-                  <a href="#" class="list-group-item list-group-item-action">첫 번째 사용 내역</a>
-                  <a href="#" class="list-group-item list-group-item-action">두 번째 사용 내역</a>
-                  <a href="#" class="list-group-item list-group-item-action">세 번째 사용 내역</a>
-                  <a href="#" class="list-group-item list-group-item-action">네 번째 사용 내역</a>
-                </div>
+                <table class="table">
+                  <thead class="table-light">
+                    <tr>
+                      <th scope="col">출발지</th>
+                      <th scope="col">도착지</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr onClick="location.href='#'" style="cursor:pointer;">
+                      <td scope="row">부산시 부산진구 가야동</td>
+                      <td>동의대학교 정보공학관</td>
+                    </tr>
+                    <tr onClick="location.href='#'" style="cursor:pointer;">
+                      <td scope="row">출발지1</td>
+                      <td>도착지1</td>
+                    </tr>
+                    <tr onClick="location.href='#'" style="cursor:pointer;">
+                      <td scope="row">출발지2</td>
+                      <td>도착지2</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
           </div>
         </div>
