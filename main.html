@@ -20,159 +20,73 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.2" rel="stylesheet" />
+  <!--tmap.js 함수 사용-->
+  <script language="JavaScript" src="tmap.js"></script>
+  <!--tmap API 사용-->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx34fbc458caac49f6b3fd63b8e1dcadd5"></script>
   <script type="text/javascript">
-    var map, markerArr = [], marker;
     var x, y;
         function initTmap() {
-
-            // 1. 지도 띄우기
-            map = new Tmapv2.Map("guide", {
-                center: new Tmapv2.LatLng(37.570028, 126.986072),
-                width: "30rem",
-                height: "20rem",
-                zoom: 15,
-                zoomControl: false,
-                scrollwheel: true
-            });
-          
-            
-
-            map.addListener("click", function onClick(evt) {
-                var mapLatLng = evt.latLng;
-
-                //기존 마커 삭제
-                initmark();
-                var markerPosition = new Tmapv2.LatLng(
-                    mapLatLng._lat, mapLatLng._lng);
-                //마커 올리기
-                marker = new Tmapv2.Marker(
-                    {
-                        position: markerPosition,
-                        icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_p.png",
-                        iconSize: new Tmapv2.Size(24, 38),
-                        map: map
-                    });
-
-                var name = reverseGeo(mapLatLng._lng, mapLatLng._lat);
-                document.getElementById("text").value = name;
-            });
-            $("#input").click(function () {
-                var search = $('#text').val();
-                initmark();//초기화
-                // 명칭으로 검색
+            $("#search").click(function () {
+                var search_s = $('#start').val(); //출발지
+                var search_e = $('#end').val(); //도착지
+                //출발지 검색하고 신주소로 출력
                 $.ajax({
                     method: "GET",
                     url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
                     async: false,
                     data: {
                         "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-                        "searchKeyword": search,
+                        "searchKeyword": search_s,
                         "resCoordType": "EPSG3857",
                         "reqCoordType": "WGS84GEO",
                         "count": 1
                     },
                     success: function (response) {
-                        var resultpoisData = response.searchPoiInfo.pois.poi;
-
-                        var positionBounds = new Tmapv2.LatLngBounds();	//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성    
+                        var resultpoisData = response.searchPoiInfo.pois.poi;    
                         var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
                         var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
                         var pointCng = new Tmapv2.Point(noorLon, noorLat);
                         var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-
-                        var lat = projectionCng._lat;
+                        var lat = projectionCng._lat; 
                         var lon = projectionCng._lng;
-                       var name = reverseGeo(lon, lat); //새주소로 이름 변경
-
-                        var markerPosition = new Tmapv2.LatLng(lat, lon);
-                        //마커
-                        marker = new Tmapv2.Marker({
-                            position: markerPosition,
-                            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_p.png",
-                            iconSize: new Tmapv2.Size(24, 38),
-                            title: name, //주소이름
-                            map: map
-                        });
-                        document.getElementById("text").value = name;// 검색된 내용으로 상세 표시
-                        markerArr.push(marker); //마커를 누르면 상세 주소
-                        map.setCenter(markerPosition);
-                        
-
+                        var name = reverseGeo(lon, lat); //새주소로 이름 변경
+                        document.getElementById("start").value = name;// 검색된 내용으로 상세 표시 
                     },
                     error: function (request, status, error) {
                         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
-                }); //설정하기 클릭시 마커
-            });
-        }
-
-        function initmark() {
-            if (markerArr.length > 0) {
-                markerArr[0].setMap(null);
-            }
-            if (marker != null) {
-                marker.setMap(null);
-            }
-
-        }
-        // 신 주소 값을 리턴
-        function reverseGeo(x, y) {
-            var newRoadAddr;
-            $.ajax({
-                method: "GET",
-                url: "https://apis.openapi.sk.com/tmap/geo/reversegeocoding?version=1&format=json&callback=result",
-                async: false,
-                data: {
-                    "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-                    "coordType": "WGS84GEO",
-                    "addressType": "A10",
-                    "lon": x,
-                    "lat": y
-                },
-                success: function (response) {
-                    // 3. json에서 주소 파싱
-                    var arrResult = response.addressInfo;
-
-                    //법정동 마지막 문자 
-                    var lastLegal = arrResult.legalDong.charAt(arrResult.legalDong.length - 1);
-
-                    // 새주소
-                    newRoadAddr = arrResult.city_do + ' ' + arrResult.gu_gun + ' ';
-
-                    if (arrResult.eup_myun == ''
-                        && (lastLegal == "읍" || lastLegal == "면")) {//읍면
-                        newRoadAddr += arrResult.legalDong;
-                    } else {
-                        newRoadAddr += arrResult.eup_myun;
+                });
+                //도착지 검색하고 신주소로 출력
+                $.ajax({
+                    method: "GET",
+                    url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
+                    async: false,
+                    data: {
+                        "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
+                        "searchKeyword": search_e,
+                        "resCoordType": "EPSG3857",
+                        "reqCoordType": "WGS84GEO",
+                        "count": 1
+                    },
+                    success: function (response) {
+                        var resultpoisData = response.searchPoiInfo.pois.poi;    
+                        var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
+                        var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
+                        var pointCng = new Tmapv2.Point(noorLon, noorLat);
+                        var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+                        var lat = projectionCng._lat; 
+                        var lon = projectionCng._lng;
+                        var name = reverseGeo(lon, lat); //새주소로 이름 변경
+                        document.getElementById("end").value = name;// 검색된 내용으로 상세 표시 
+                    },
+                    error: function (request, status, error) {
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
-                    newRoadAddr += ' ' + arrResult.roadName + ' '
-                        + arrResult.buildingIndex;
-
-                    // 새주소 법정동& 건물명 체크
-                    if (arrResult.legalDong != ''
-                        && (lastLegal != "읍" && lastLegal != "면")) {//법정동과 읍면이 같은 경우
-
-                        if (arrResult.buildingName != '') {//빌딩명 존재하는 경우
-                            newRoadAddr += (' (' + arrResult.legalDong
-                                + ', ' + arrResult.buildingName + ') ');
-                        } else {
-                            newRoadAddr += (' (' + arrResult.legalDong + ')');
-                        }
-                    } else if (arrResult.buildingName != '') {//빌딩명만 존재하는 경우
-                        newRoadAddr += (' (' + arrResult.buildingName + ') ');
-                    }
-                },
-                error: function (request, status, error) {
-                    console.log("code:" + request.status + "\n"
-                        + "message:" + request.responseText + "\n"
-                        + "error:" + error);
-                }
+                });
             });
-            return newRoadAddr;
-        }
-
+        }     
     </script>
 </head>
 
@@ -247,33 +161,28 @@
             </div>
 
           </div>
-          <form class="col-lg-9 col-md-8 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-            <input class="form-control me-2 border p-2" type="search" placeholder="Starting point" aria-label="Search" id="text">
-            <button class="btn btn-outline-success col-md-2 my-1 p-2" type="button" id="input">조회</button>
-            </div>
-          </form>
           </div>
-          
+        
         </div>
-        <div class="row" >
+        <form class="position-relative px-md-2 px-sm-5 mx-auto">
+          <div class="d-flex justify-content-center align-items-center mb-2">
+            <div class="col-lg-6">
+              <input class="form-control me-2 border p-2 m-2" id="start" type="search" placeholder="출발지" aria-label="Search">
+              <input class="form-control me-2 border p-2 m-2" id="end" type="search" placeholder="도착지" aria-label="Search">
+            </div>
+            <button class="btn btn-outline-success col-md-1 my-1 p-4 ms-4" type="button" id="search">조회</button>
+          </div>
+        </form>
           <div  class="row justify-content-center text-center my-sm-5" >
             <div id="guide"></div>
-          </div>
         </div>
             
-        <div class="col-lg-7 col-md-6 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-          <div class="align-items-center mb-2 my-4">
-            <div class="row">
-              <div class="row justify-content-center ms-auto me-2">
-              <button class="btn btn-outline-success col-lg-2 col-md-2 p-2" type="submit">검색</button>
-            </div>
-            </div>
-            <div class="row">
-              <div class="row ms-auto text-center me-2">
-            <button class="btn btn-outline-success col-lg-2 col-md-2 p-2" type="submit">등록</button>
-            </div>
-            </div>
+        <div class="col-lg-8 col-md-8 position-relative px-md-2 px-sm-5 mx-auto">
+          <form class="d-flex justify-content-reverse align-items-center mt-4">
+              <div class="ms-auto text-center">
+                <button class="btn btn-outline-success" type="submit">등록</button>
+              </div>
+          </form>
             <!--구인 글 목록-->
             <!--table 동적으로 -->
             <!--부트스트랩 동적 테이블 검색해서 사용-->
