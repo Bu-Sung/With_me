@@ -23,33 +23,11 @@
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.2" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+  
+  
 </head>
 
-<body class="myPage bg-gray-200">
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">정보 수정</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
-        <div class="modal-body">
-          이름 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="이름" readonly>
-          비밀번호 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="비밀번호" id="pw">
-          전화번호 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="전화번호" id="phoneNum">
-          위치 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="위치" id="place">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" >Edit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End-Modal -->
-
+<body class="reservation bg-gray-200">
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
@@ -92,12 +70,13 @@
   <!-- -------- START HEADER 4 w/ search book a ticket form ------- -->
   <header>
     <!--메뉴바 밑 이미지 부분-->
-    <div class="page-header min-height-400" style="background-image: url('./assets/image/city-profile.jpg');" loading="lazy">
+    <div class="page-header min-height-400" style="background-image: url('./assets/image/road.jpg');" loading="lazy">
       <span class="mask bg-gradient-dark opacity-8"></span>
     </div>
   </header>
 
-
+  
+  
   <!-- -------- END HEADER 4 w/ search book a ticket form ------- -->
   <div class="card card-body shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
     <!-- START Testimonials w/ user image & text & info -->
@@ -106,66 +85,75 @@
         <div class="row">
           <div class="col-12 mx-auto">
             <div class="col-lg-9 col-md-9 mt-4 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-                <h2 class="mb-1" >My Page
-                <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                <h2 class="mb-1" >Reservation List
+                <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                 </svg>
+
               </h2>
-              <!--사용자명 윗 구분선-->
+              <!--구분선-->
               <hr width="100%" color="#B2B2B2" noshade />
               </div>
             </div>
-            <div class="row py-5">
-              <div class="col-lg-8 col-md-8 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <!--사용자명 가져오기-->
-                  <h3 class="mb-0" id="user_name">사용자명</h3>
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary mt-3 fs-6 " data-bs-toggle="modal" data-bs-target="#exampleModal" >
-                    정보 수정
-                  </button>
-                </div>
-                <p class="text-lg mb-0" id="phone_number">
-                  <!--전화번호 입력-->
-                  <!--값은 임시로 다음과 같이 넣어두었으니 id값으로 받아와서 사용-->
-                  전화번호:000-0000-0000
-                </p>
-              </div>
+            <div class="col-lg-9 col-md-9 position-relative px-md-2 px-sm-5 mx-auto py-5">
+              <div class="d-flex justify-content-reverse align-items-center mt-4">
+              <table class="table ">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">출발지</th>
+                    <th scope="col">도착지</th>
+                    <th scope="col">예상 가격</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr onClick="location.href='#'" style="cursor:pointer;">
+                    <td scope="row">부산시 부산진구 가야동</td>
+                    <td>동의대학교 정보공학관</td>
+                    <td>3800￦</td>
+                  </tr>
+                  <tr onClick="location.href='#'" style="cursor:pointer;">
+                    <td scope="row">출발지1</td>
+                    <td>도착지1</td>
+                    <td>가격1</td>
+                  </tr>
+                  <tr onClick="location.href='#'" style="cursor:pointer;">
+                    <td scope="row">출발지2</td>
+                    <td>도착지2</td>
+                    <td>가격2</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="row py-5 mt-6">
-              <div class="col-lg-8 col-md-8 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-                <!--사용 테이블 임시-->
-                <!--사용 테이블 동적으로 받아와서 늘려줘야 함-->
-                <h3>사용 내역 조회</h3>
-                <table class="table">
-                  <thead class="table-light">
-                    <tr>
-                      <th scope="col">출발지</th>
-                      <th scope="col">도착지</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr onClick="location.href='#'" style="cursor:pointer;">
-                      <td scope="row">부산시 부산진구 가야동</td>
-                      <td>동의대학교 정보공학관</td>
-                    </tr>
-                    <tr onClick="location.href='#'" style="cursor:pointer;">
-                      <td scope="row">출발지1</td>
-                      <td>도착지1</td>
-                    </tr>
-                    <tr onClick="location.href='#'" style="cursor:pointer;">
-                      <td scope="row">출발지2</td>
-                      <td>도착지2</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-          </div>
+            </div>
         </div>
       </div>
     </section>
     <!-- END Testimonials w/ user image & text & info -->
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">정보 수정</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
+        <div class="modal-body">
+          이름 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="이름" readonly>
+          비밀번호 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="비밀번호" id="pw">
+          전화번호 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="전화번호" id="phoneNum">
+          위치 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="위치" id="place">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" >Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- -------- END FOOTER 5 w/ DARK BACKGROUND ------- -->
   <!--   Core JS Files   -->
