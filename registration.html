@@ -43,6 +43,7 @@
         </div>
         <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
         <div class="modal-body">
+          지도 넣으세요.
           예상가격 <input type="text" class="form-control-plaintext border p-2" id="floatingPlaintextInput" value="1500￦(test)" readonly>
         </div>
         <div class="modal-footer">
@@ -121,7 +122,7 @@
                 <input type="range" class="form-range mb-3" min="2" max="4" id="Range" value="2" oninput="document.getElementById('value').innerHTML=this.value;">
                 날짜 <input type="text" id="datePicker" class="form-control border p-2 mt-1 mb-3" placeholder="날짜 선택 (최대 15일 이후까지 선택 가능)">
                 시간 <input type="time" class="form-control border p-2 mt-1 mb-3">
-                상세설명 <textarea class="form-control border p-2 mt-1 mb-3" placeholder="상세설명을 작성해주세요." id="floatingTextarea2" style="height: 12rem"></textarea>
+                상세설명 <textarea class="form-control border p-2 mt-1 mb-3" placeholder="상세설명을 작성해주세요." id="floatingTextarea2" style="height: 12rem; resize: none;"></textarea>
                 <button type="button" class="btn btn-primary mt-3 fs-6 " data-bs-toggle="modal" data-bs-target="#exampleModal" >
                   등록
                 </button>
