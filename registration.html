@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="./assets/image/icon.png">
   <title>
-    함께 갈래요? - 예약내역
+    함께 갈래요? - 등록페이지
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500&display=swap" />
@@ -24,10 +24,35 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
   
+  <!--datepicker사용을 위해-->
+  <link rel="stylesheet" href="./assets/css/bootstrap-datepicker.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="./assets/js/bootstrap-datepicker.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"></script>
   
 </head>
 
-<body class="reservation bg-gray-200">
+<body class="registration bg-gray-200">
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">등록하시겠습니까?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
+        <div class="modal-body">
+          예상가격 <input type="text" class="form-control-plaintext border p-2" id="floatingPlaintextInput" value="1500￦(test)" readonly>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" >Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End-Modal -->
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
@@ -70,8 +95,8 @@
   <!-- -------- START HEADER 4 w/ search book a ticket form ------- -->
   <header>
     <!--메뉴바 밑 이미지 부분-->
-    <div class="page-header min-height-400" style="background-image: url('./assets/image/road.jpg');" loading="lazy">
-      <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="page-header min-height-400" style="background-image: url('https://c.pxhere.com/photos/14/86/architecture_buildings_bus_business_cars_city_cityscape_clouds-1495895.jpg!d');" loading="lazy">
+      <span class="mask bg-gradient-dark opacity-4"></span>
     </div>
   </header>
 
@@ -81,78 +106,33 @@
   <div class="card card-body shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
     <!-- START Testimonials w/ user image & text & info -->
     <section class="py-sm-7 py-5 position-relative">
+      <div class="container">
         <div class="row">
           <div class="col-12 mx-auto">
             <div class="col-lg-9 col-md-9 mt-4 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-                <h2 class="mb-1" >Reservation List
-                <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                </svg>
-
-              </h2>
-              <!--구분선-->
+              <h2 class="mb-1" >구인글 등록</h2>
               <hr width="100%" color="#B2B2B2" noshade />
-              </div>
             </div>
-            <div class="col-lg-8 col-md-8 position-relative px-md-2 px-sm-5 mx-auto py-5">
-              <div class="d-flex justify-content-reverse align-items-center mt-4">
-              <table class="table ">
-                <thead class="table-light">
-                  <tr>
-                    <th scope="col">출발지</th>
-                    <th scope="col">도착지</th>
-                    <th scope="col">예상 가격</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">부산시 부산진구 가야동</td>
-                    <td>동의대학교 정보공학관</td>
-                    <td>3800￦</td>
-                  </tr>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">출발지1</td>
-                    <td>도착지1</td>
-                    <td>가격1</td>
-                  </tr>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">출발지2</td>
-                    <td>도착지2</td>
-                    <td>가격2</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="col-lg-8 col-md-8 mt-4 px-md-2 px-sm-5 mx-auto">
+              <form class="justify-content-center my-sm-5 align-items-center mt-4">
+                출발지 <input class="form-control border p-2 mt-1 mb-3" type="text" placeholder="출발지">
+                도착지 <input class="form-control border p-2 mt-1 mb-3" type="text" placeholder="도착지">
+                인원수: <span id="value" class="mt-1 "></span>
+                <input type="range" class="form-range mb-3" min="2" max="4" id="Range" value="2" oninput="document.getElementById('value').innerHTML=this.value;">
+                날짜 <input type="text" id="datePicker" class="form-control border p-2 mt-1 mb-3" placeholder="날짜 선택 (최대 15일 이후까지 선택 가능)">
+                시간 <input type="time" class="form-control border p-2 mt-1 mb-3">
+                상세설명 <textarea class="form-control border p-2 mt-1 mb-3" placeholder="상세설명을 작성해주세요." id="floatingTextarea2" style="height: 12rem"></textarea>
+                <button type="button" class="btn btn-primary mt-3 fs-6 " data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                  등록
+                </button>
+              </form>
             </div>
-            </div>
+          </div>
         </div>
       </div>
     </section>
     <!-- END Testimonials w/ user image & text & info -->
   </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">정보 수정</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
-        <div class="modal-body">
-          이름 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="이름" readonly>
-          비밀번호 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="비밀번호" id="pw">
-          전화번호 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="전화번호" id="phoneNum">
-          위치 <input class="form-control me-2 border p-2 m-2" type="text" placeholder="위치" id="place">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" >Edit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <!-- -------- END FOOTER 5 w/ DARK BACKGROUND ------- -->
   <!--   Core JS Files   -->
@@ -166,4 +146,30 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
   <script src="./assets/js/material-kit.min.js?v=3.0.2" type="text/javascript"></script>
   </body>
+
+  <script>
+    $('#datePicker')
+       .datepicker({
+          format: 'yyyy-mm-dd', //데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
+          startDate: '0d', //달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
+          endDate: '+15d', //달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
+          autoclose: true, //사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
+          calendarWeeks: false, //캘린더 옆에 몇 주차인지 보여주는 옵션 기본값 false 보여주려면 true
+          clearBtn: false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
+          disableTouchKeyboard: false, //모바일에서 플러그인 작동 여부 기본값 false 가 작동 true가 작동 안함.
+          immediateUpdates: false, //사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false
+          templates: {
+             leftArrow: '&laquo;',
+             rightArrow: '&raquo;',
+          }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
+          showWeekDays: true, // 위에 요일 보여주는 옵션 기본값 : true
+          todayHighlight: true, //오늘 날짜에 하이라이팅 기능 기본값 :false
+          weekStart: 0, //달력 시작 요일 선택하는 것 기본값은 0인 일요일
+          language: 'ko', //달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+       })
+       .on('changeDate', function (e) {
+          console.log(e);
+          // e.date를 찍어보면 Thu Jun 27 2019 00:00:00 GMT+0900 (한국 표준시) 위와 같은 형태로 보인다.
+       });
+ </script>
 </html>
