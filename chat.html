@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="./assets/image/icon.png">
-  <title>함께 갈래요? - 로그인</title>
+  <title>함께 갈래요? - 채팅</title>
 
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500&display=swap" />
@@ -69,12 +69,29 @@
     <div class="container my-auto">
       <div class="row">
         <div class="col-lg-10 col-md-10 col-12 mx-auto">
-          <div class="card">
-            <h5 class="card-header bg-light">주소 동적으로 가져오기</h5>
-
+          <div class="card mt-7 position-relative">
+            <h5 class="card-header col-12 bg-light position-absolute">주소 동적으로 가져오기</h5>
+            <div class="d-flex justify-content-end">
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" style="height: 4.7rem;" data-bs-toggle="dropdown" aria-expanded="false">
+                  menu
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><button class="dropdown-item" type="button">탑승 확정</a></li>
+                  <li><button class="dropdown-item" type="button">채팅방 나가기</a></li>
+                </ul>
+              </div>
+            </div>
             <div class="card-body">
-              <p class="card-text">채팅방</p>
-              <button class="btn btn-primary" type="button" id="chat">전송</input>
+              <!--일정 크기 이상되면 스크롤바 생기도록 설정-->
+              <!--채팅 가져올 때, 스크롤바 아래로 가도록 설정해야함-->
+              <div class="scroll mb-4" style="height: 20rem; overflow: scroll;">
+                <p>채팅 내용 입력</p>
+              </div>
+              <div class="d-flex justify-content-end">
+                <textarea class="form-control border p-2 me-2" style="height:3rem; resize: none;" placeholder="메시지를 입력하세요."></textarea>
+                <button class="btn btn-primary" style="height:3rem; width:5rem;" type="button" id="chat">전송</input>
+              </div>
             </div>
           </div>
         </div>
