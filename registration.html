@@ -66,84 +66,93 @@
       $("#input").click(function () {
         var search_s = $('#start').val();
         var search_e = $('#end').val();
-        resettingMap();
-        //시작 점 검색
-        let [x1, y1] = toPoint(search_s);
-        s_x = x1;
-        s_y = y1;
-      
-        //시작 마커
-        marker_s = new Tmapv2.Marker({
-          position: new Tmapv2.LatLng(s_y, s_x),
-          icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png",
-          iconSize: new Tmapv2.Size(24, 38),
-          title: reverseGeo(s_x,s_y), //주소이름
-          map: map
-        });
-        document.getElementById("start").value = reverseGeo(s_x,s_y);
-        markerArr_s.push(marker_s); //마커를 누르면 상세 주소
-        map.setCenter(new Tmapv2.LatLng(s_y, s_x));
-        //출발지 마커 찍기 끝
-        //도착지 검색
-        let [x2, y2] = toPoint(search_e);
-        e_x = x2;
-        e_y = y2;
-        marker_e = new Tmapv2.Marker({
-              position: new Tmapv2.LatLng(e_y, e_x),
-              icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png",
-              iconSize: new Tmapv2.Size(24, 38),
-              title: reverseGeo(e_x, e_y), //주소 이름
-              map: map
-            });
-            document.getElementById("end").value = reverseGeo(e_x, e_y);
-            markerArr_e.push(marker_e); //마커를 누르면 상세 주소
-       
+        var num = document.getElementById("num").value; 
+        if( search_s == ""){
+          alert("출발지를 입력해 주세요!")
+        }else if(search_e == ""){
+          alert("도착지를 입력해 주세요!")
+        }else if(num == ""){
+          alert("인원 수를 지정해 주세요!");
+          $('#num').val("");
+        }else if(num<2||num>4){
+          alert("인원 수는 2~4명 사이로 지정해 주세요!");
+          $('#num').val("");
+        }else{
+          resettingMap();
+          //시작 점 검색
+          let [x1, y1] = toPoint(search_s);
+          s_x = x1;
+          s_y = y1;
+        
+          //시작 마커 찍기
+          marker_s = new Tmapv2.Marker({
+            position: new Tmapv2.LatLng(s_y, s_x),
+            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png",
+            iconSize: new Tmapv2.Size(24, 38),
+            title: reverseGeo(s_x,s_y), //주소이름
+            map: map
+          });
+          markerArr_s.push(marker_s); //마커를 누르면 상세 주소
+          map.setCenter(new Tmapv2.LatLng(s_y, s_x));
 
-        //경로 표시하기
-        $.ajax({
-          type: "POST",
-          url: "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
-          async: false,
-          data: {
-            "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-            "startX": s_x,
-            "startY": s_y,
-            "endX": e_x,
-            "endY": e_y,
-            "reqCoordType": "WGS84GEO",
-            "resCoordType": "EPSG3857",
-          },
-          success: function (response) {
-            var resultData = response.features;
+          //도착지 마커 찍기
+          let [x2, y2] = toPoint(search_e);
+          e_x = x2;
+          e_y = y2;
+          marker_e = new Tmapv2.Marker({
+                position: new Tmapv2.LatLng(e_y, e_x),
+                icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png",
+                iconSize: new Tmapv2.Size(24, 38),
+                title: reverseGeo(e_x, e_y), //주소 이름
+                map: map
+          });
+          markerArr_e.push(marker_e); //마커를 누르면 상세 주소
 
-            var num = document.getElementById("num").value;
-            document.getElementById("price").value = Math.floor(resultData[0].properties.taxiFare / num) + "원";
+          //경로 표시하기
+          $.ajax({
+            type: "POST",
+            url: "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
+            async: false,
+            data: {
+              "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
+              "startX": s_x,
+              "startY": s_y,
+              "endX": e_x,
+              "endY": e_y,
+              "reqCoordType": "WGS84GEO",
+              "resCoordType": "EPSG3857",
+            },
+            success: function (response) {
+              var resultData = response.features;
 
-            for (var i in resultData) { //for문 [S]
-              var geometry = resultData[i].geometry;
-              var properties = resultData[i].properties;
+              document.getElementById("price").value = Math.floor(resultData[0].properties.taxiFare / num);
 
-              if (geometry.type == "LineString") {
-                for (var j in geometry.coordinates) {
-                  // 경로들의 결과값들을 포인트 객체로 변환 
-                  var latlng = new Tmapv2.Point(
-                    geometry.coordinates[j][0],
-                    geometry.coordinates[j][1]);
-                  // 포인트 객체를 받아 좌표값으로 변환
-                  var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-                    latlng);
-                  // 포인트객체의 정보로 좌표값 변환 객체로 저장
-                  var convertChange = new Tmapv2.LatLng(convertPoint._lat, convertPoint._lng);
-                  // 배열에 담기
-                  drawInfoArr.push(convertChange);
-                }//for문 끝
-                drawLine(drawInfoArr);
+              for (var i in resultData) { //for문 [S]
+                var geometry = resultData[i].geometry;
+                var properties = resultData[i].properties;
+
+                if (geometry.type == "LineString") {
+                  for (var j in geometry.coordinates) {
+                    // 경로들의 결과값들을 포인트 객체로 변환 
+                    var latlng = new Tmapv2.Point(
+                      geometry.coordinates[j][0],
+                      geometry.coordinates[j][1]);
+                    // 포인트 객체를 받아 좌표값으로 변환
+                    var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+                      latlng);
+                    // 포인트객체의 정보로 좌표값 변환 객체로 저장
+                    var convertChange = new Tmapv2.LatLng(convertPoint._lat, convertPoint._lng);
+                    // 배열에 담기
+                    drawInfoArr.push(convertChange);
+                  }//for문 끝
+                  drawLine(drawInfoArr);
+                }
               }
-            }
-          } //키 인증 성공
-        }); //ajex끝
-      })  
+            } //키 인증 성공
+          }); //ajex끝
+      }})
     } //출발지, 도착지버튼 클릭 끝
+
     //라인그리기
     function drawLine(arrPoint) {
       var polyline_;
@@ -302,22 +311,21 @@
   <script src="./assets/js/material-kit.min.js?v=3.0.2" type="text/javascript"></script>-->
 </body>
 
+<!--
 <script>
   $(document).on("keyup", "input[name^=wr_1]", function () {
     var val = $(this).val();
 
-    if (val.replace(/[0-9]/g, "").length > 0) {
-      alert("숫자만 입력해 주십시오.");
-      $(this).val('');
-    }
+    
 
     if (val < 2 || val > 4) {
       alert("2~4 범위로 입력해 주십시오.");
       $(this).val('');
     }
+
   });
 </script>
-
+-->
 <script>
   $('#datePicker')
     .datepicker({
