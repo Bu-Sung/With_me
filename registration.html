@@ -33,27 +33,7 @@
 </head>
 
 <body class="registration bg-gray-200">
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">등록하시겠습니까?</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
-        <div class="modal-body">
-          지도 넣으세요.
-          예상가격 <input type="text" class="form-control-plaintext border p-2" id="floatingPlaintextInput" value="1500￦(test)" readonly>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" >Submit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End-Modal -->
+ 
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
@@ -116,14 +96,30 @@
             </div>
             <div class="col-lg-8 col-md-8 mt-4 px-md-2 px-sm-5 mx-auto">
               <form class="justify-content-center my-sm-5 align-items-center mt-4">
-                출발지 <input class="form-control border p-2 mt-1 mb-3" type="text" placeholder="출발지">
-                도착지 <input class="form-control border p-2 mt-1 mb-3" type="text" placeholder="도착지">
-                인원수: <span id="value" class="mt-1 "></span>
-                <input type="range" class="form-range mb-3" min="2" max="4" id="Range" value="2" oninput="document.getElementById('value').innerHTML=this.value;">
-                날짜 <input type="text" id="datePicker" class="form-control border p-2 mt-1 mb-3" placeholder="날짜 선택 (최대 15일 이후까지 선택 가능)">
-                시간 <input type="time" class="form-control border p-2 mt-1 mb-3">
+                출발지 <input class="form-control border p-2 mt-1 mb-3" id="start" type="search" placeholder="출발지">
+                도착지 <input class="form-control border p-2 mt-1 mb-3" id="end" type="search" placeholder="도착지">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    인원수
+                    <div class="d-flex justify-content-center">
+                      <input type="number" class="form-control border p-2 mt-1 mb-3 me-2" min="2" max="4" placeholder="2 ~ 4" >
+                      <button class="btn btn-outline-success mt-1 mb-3" type="button" id="input" style="width:7rem;height:42px">조회</button>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    예상가격<input class="form-control-plaintext p-2 mt-1 mb-3" placeholder="조회 클릭시 확인 가능" readonly>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
+                    날짜 <input type="text" id="datePicker" class="form-control border p-2 mt-1 mb-3" placeholder="날짜 선택 (최대 15일 이후까지 선택 가능)">
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    시간 <input type="time" class="form-control border p-2 mt-1 mb-3">
+                  </div>
+                </div>
                 상세설명 <textarea class="form-control border p-2 mt-1 mb-3" placeholder="상세설명을 작성해주세요." id="floatingTextarea2" style="height: 12rem; resize: none;"></textarea>
-                <button type="button" class="btn btn-primary mt-3 fs-6 " data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                <button type="submit" class="btn btn-primary mt-3 fs-6">
                   등록
                 </button>
               </form>
