@@ -53,3 +53,40 @@ function reverseGeo(x, y) {
     });
     return newRoadAddr;
 }
+
+// 주소를 통하여 좌표값을 반환
+function toPoint(str){
+    var x;
+    var y;
+    $.ajax({
+        method: "GET",
+        url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
+        async: false,
+        data: {
+            "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
+            "searchKeyword": str,
+            "resCoordType": "EPSG3857",
+            "reqCoordType": "WGS84GEO",
+            "count": 1
+        },
+        success: function (response) {
+            var resultpoisData = response.searchPoiInfo.pois.poi;
+
+            var positionBounds = new Tmapv2.LatLngBounds();	//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성    
+            var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
+            var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
+
+            var pointCng = new Tmapv2.Point(noorLon, noorLat);
+            var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+
+            y = projectionCng._lat;
+            x = projectionCng._lng;
+           
+        },
+        error: function (request, status, error) {
+            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+    });
+
+    return [x, y];
+}
