@@ -1,3 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import ="java.sql.*" %>
+
+<% // MySQL JDBC Driver Loading
+    Class.forName("com.mysql.cj.jdbc.Driver"); 
+    Connection conn =null;
+    PreparedStatement pstmt = null;
+    ResultSet rs =null;
+    
+    String uid = session.getAttribute("sid").toString();
+    String user_id = null;
+    String user_pw = null;
+    String user_name = null;
+    String user_phone = null;
+
+    try {
+        String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+        String dbUser ="taxi"; //mysql id
+        String dbPass ="1234"; //mysql password
+                        
+        String sql = "select * from user where user_id = ?";
+    
+        // Create DB Connection
+        conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+        // Create Statement
+        pstmt = conn.prepareStatement(sql);
+                        
+        //pstmt 생성
+        pstmt.setString(1,uid);
+                        
+        // Run Qeury
+        rs = pstmt.executeQuery();
+        // Print Result (Run by Query)
+                        
+        if(rs.next()) {
+            user_id = rs.getString("user_id");
+            user_pw = rs.getString("user_pw");
+            user_name = rs.getString("user_name");
+            user_phone = rs.getString("user_phone");
+          } 
+                        
+    } catch(SQLException ex) {
+        out.println(ex.getMessage());
+        ex.printStackTrace();
+      } finally {
+          // Close Statement
+          if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+          if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+          // Close Connection
+          if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+        }
+ %>
+
 <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
@@ -36,14 +90,14 @@
         </div>
         <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
         <div class="modal-body">
-          이름 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="이름" readonly>
-          비밀번호 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="비밀번호" id="pw">
-          전화번호 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="전화번호" id="phoneNum">
-          위치 <input class="form-control me-2 border p-2 mb-2" type="text" placeholder="위치" id="place">
+          이름 <input class="form-control me-2 border p-2 mb-2" type="text" value= <%= user_name %> placeholder="이름" readonly>
+          비밀번호 <input class="form-control me-2 border p-2 mb-2" type="text" value= <%= user_pw %> placeholder="비밀번호" id="pw">
+          전화번호 <input class="form-control me-2 border p-2 mb-2" type="text" value= <%= user_phone %> placeholder="전화번호" id="phoneNum">
+          위치 <input class="form-control me-2 border p-2 mb-2" type="text"  placeholder="위치" id="place">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" >Edit</button>
+          <button type="button" class="btn btn-primary">Edit</button>
         </div>
       </div>
     </div>
@@ -68,7 +122,7 @@
         <ul class="navbar-nav navbar-nav-hover ms-auto">
           <!--첫 번째 메뉴(마이페이지)-->
           <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.jsp">
               <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
               마이페이지
               <img class="arrow ms-2 d-lg-block d-none">
@@ -116,7 +170,9 @@
             </div>
                 <div class="col-md-8 m-auto d-flex justify-content-between align-items-center mb-2">
                   <!--사용자명 가져오기-->
-                  <h3 class="mb-0" id="user_name">사용자명</h3>
+                  <h3 class="mb-0" id="user_name">
+                    <%= user_name%>
+                  </h3>
                   <!-- Button trigger modal -->
                   <button type="button" class="btn btn-primary mt-3 fs-6 " data-bs-toggle="modal" data-bs-target="#exampleModal" >
                     정보 수정
@@ -124,8 +180,7 @@
                 </div>
                 <p class="text-lg mb-0 col-md-8 m-auto" id="phone_number">
                   <!--전화번호 입력-->
-                  <!--값은 임시로 다음과 같이 넣어두었으니 id값으로 받아와서 사용-->
-                  전화번호:000-0000-0000
+                  전화번호: <%= user_phone%>
                 </p>
               </div>
             <div class="row py-5 mt-6">
