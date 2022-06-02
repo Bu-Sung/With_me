@@ -111,7 +111,7 @@
             <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
               <ul class="navbar-nav navbar-nav-hover ms-auto">
                 <li class="nav-item dropdown dropdown-hover mx-2">
-                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="myPage" href="myPage.html">
+                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="myPage" href="myPage.jsp">
                     <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
                     마이페이지
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
