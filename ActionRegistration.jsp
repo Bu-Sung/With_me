@@ -32,7 +32,7 @@
         String dbUser ="taxi";
         String dbPass ="1234";
         
-        //질의문 형태로 저장
+        //질의문 형태로 저장 - txai정보 저장
         String sql ="INSERT INTO taxi(group_num, start, end, day, daytime, people, price, div_price, detail, completion) values(?,?,?,?,?,?,?,?,?,?)";
         
         //db 연결
@@ -51,9 +51,16 @@
         pstmt.setString(9,utext);
         pstmt.setInt(10,ucompletion);
 
-        //db에 정보 저장
+        //db에 정보 저장 - taxi 정보
         pstmt.executeUpdate();
         
+        //member 정보 저장
+        String sql2 = "insert into member value (?, ? ,null,null,null)";
+        pstmt = conn.prepareStatement(sql2);
+        pstmt.setString(1,ugroup_num);
+        
+        pstmt.setString(2,(String) session.getAttribute("sid"));
+        pstmt.executeUpdate();
         response.sendRedirect("main.jsp");
 
     }catch(SQLException ex) { //예외처리
