@@ -98,7 +98,7 @@
       <div class="col-12">
         <nav class="navbar navbar-expand-lg  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid px-0">
-            <a class="navbar-brand font-weight-bolder ms-sm-3" href="main.html" data-placement="bottom">
+            <a class="navbar-brand font-weight-bolder ms-sm-3" href="main.jsp" data-placement="bottom">
               함께 갈래요?
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,6 +122,14 @@
                   <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="reservation" href="reservation.html">
                     <i class="material-icons opacity-6 me-2 text-md">view_day</i>
                     예약내역
+                    <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
+                    <img class="arrow ms-auto ms-md-2 d-lg-none d-block">
+                  </a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="logout" href="sign-in.jsp">
+                    <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+                    로그아웃
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
                     <img class="arrow ms-auto ms-md-2 d-lg-none d-block">
                   </a>
@@ -182,7 +190,7 @@
         <div class="col-lg-7 col-md-7 position-relative px-md-2 px-sm-5 mx-auto">
           <form class="d-flex justify-content-reverse align-items-center mt-4">
               <div class="ms-auto text-center">
-                <button class="btn btn-outline-success fs-6" type="button" onClick="location.href='registration.html'">등록</button>
+                <button class="btn btn-outline-success fs-6" type="button" onClick="location.href='registration.jsp'">등록</button>
               </div>
           </form>
             <!--구인 글 목록-->
