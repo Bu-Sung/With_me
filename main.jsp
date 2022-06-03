@@ -129,8 +129,7 @@
 
           $('#list tr').click( function(){
               var data = $(this).children();
-              location.replace("detail-info.jsp?num="+data.eq(0).text());
-              
+              location.href = "detail-info.jsp?num="+data.eq(0).text();
           })
         }     
 

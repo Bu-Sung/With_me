@@ -1,3 +1,5 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import ="java.sql.*" %>
 <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
@@ -19,6 +21,15 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.2" rel="stylesheet" />
+  <!--js-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script
+  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx34fbc458caac49f6b3fd63b8e1dcadd5"></script>
+  <script type="text/javascript">
+      function completion(){ // 탑승 완료시 처리
+        var num = $('#num').value;
+        location.href = "completion.jsp?num="+num;
+      }
+  </script>
 </head>
 
 <body class="chat">
@@ -78,15 +89,14 @@
       <div class="row">
         <div class="col-lg-10 col-md-10 col-12 mx-auto">
           <div class="card mt-7 position-relative">
-            <h5 class="card-header col-12 bg-light position-absolute">주소 동적으로 가져오기</h5>
+            <h5 class="card-header col-12 bg-light position-absolute" id="num">주소 동적으로 가져오기</h5>
             <div class="d-flex justify-content-end">
               <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" style="height: 4.7rem;" data-bs-toggle="dropdown" aria-expanded="false">
                   menu
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><button class="dropdown-item" type="button">탑승 확정</a></li>
-                  <li><button class="dropdown-item" type="button">채팅방 나가기</a></li>
+                  <li><button class="dropdown-item" type="button" onclick="completion();">탑승 확정</a></li>
                 </ul>
               </div>
             </div>
