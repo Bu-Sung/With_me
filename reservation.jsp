@@ -1,4 +1,9 @@
-<!--틀만 만들어둔 상태-->
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@ page import ="java.sql.*" %>
+
+
+ 
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
@@ -104,8 +109,67 @@
                 </thead>
                 <tbody>
                   <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">부산시 부산진구 가야동</td>
-                    <td>동의대학교 정보공학관</td>
+                    <td scope="row">부산시 부산진구 가야동 
+                      <% // MySQL JDBC Driver Loading
+    Class.forName("com.mysql.cj.jdbc.Driver"); 
+    Connection conn =null;
+    PreparedStatement pstmt = null;
+    ResultSet rs =null;
+    
+    String uid = session.getAttribute("sid").toString();
+    String user_id = null;
+    String user_pw = null;
+    String user_name = null;
+    String user_phone = null;
+    String group_num = null;
+    String[] gn = new String[30];  
+
+    try {
+        String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+        String dbUser ="taxi"; //mysql id
+        String dbPass ="1234"; //mysql password
+                        
+        //String sql = "select * from user where user_id = ?";
+        //String sql = "select u.user_id, m.group_num  from member as m inner join  user as u on  m.leader=? or m.one=? or m.two=? or m.three=?";
+        //String sql = "select group_num  from member where leader=? or one=? or two=? or three=?";
+        String sql = "select  taxi.start from taxi where taxi.group_num in (select member.group_num from member where member.leader = ?)";
+
+        // Create DB Connection
+        conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+        // Create Statement
+        pstmt = conn.prepareStatement(sql);
+                        
+        //pstmt 생성
+        pstmt.setString(1,uid);
+        pstmt.setString(2,uid);
+        pstmt.setString(3,uid);
+        pstmt.setString(4,uid);
+                        
+        // Run Qeury
+        rs = pstmt.executeQuery();
+        // Print Result (Run by Query)
+                        
+        while(rs.next()) {
+          
+            //user_id = rs.getString("user_id");
+            //group_num = rs.getString("group_num");
+            out.println(rs.getString("group_num")); 
+          } 
+                        
+    } catch(SQLException ex) {
+        out.println(ex.getMessage());
+        ex.printStackTrace();
+      } finally {
+          // Close Statement
+          if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+          if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+          // Close Connection
+          if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+        }
+ %>
+
+                    </td>
+                    <td>동의대학교 정보공학관  </td>
                     <td>3800￦</td>
                   </tr>
                   <tr onClick="location.href='#'" style="cursor:pointer;">

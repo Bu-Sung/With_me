@@ -13,7 +13,6 @@
     String user_pw = null;
     String user_name = null;
     String user_phone = null;
-
     try {
         String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
         String dbUser ="taxi"; //mysql id
@@ -80,34 +79,11 @@
 </head>
 
 <body class="myPage bg-gray-200">
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">정보 수정</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <!--안에 내용은 프로젝트에 맞게 수정해야 함-->
-        <div class="modal-body">
-          이름 <input class="form-control me-2 border p-2 mb-2" type="text" value= <%= user_name %> placeholder="이름" readonly>
-          비밀번호 <input class="form-control me-2 border p-2 mb-2" type="text" value= <%= user_pw %> placeholder="비밀번호" id="pw">
-          전화번호 <input class="form-control me-2 border p-2 mb-2" type="text" value= <%= user_phone %> placeholder="전화번호" id="phoneNum">
-          위치 <input class="form-control me-2 border p-2 mb-2" type="text"  placeholder="위치" id="place">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Edit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End-Modal -->
 
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
-      <a class="navbar-brand  text-white " href="main.html" data-placement="bottom">
+      <a class="navbar-brand  text-white " href="main.jsp" data-placement="bottom">
         함께 갈래요?
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,6 +110,14 @@
             <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
+              <img class="arrow ms-2 d-lg-block d-none">
+              <img class="arrow ms-2 d-lg-none d-block">
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="sign-in.jsp">
+              <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+              로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
             </a>
@@ -174,7 +158,7 @@
                     <%= user_name%>
                   </h3>
                   <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary mt-3 fs-6 " data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                  <button type="button" class="btn btn-primary mt-3 fs-6 " onclick="location.href='update.jsp'">
                     정보 수정
                   </button>
                 </div>
