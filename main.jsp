@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import ="java.sql.*" %>
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
@@ -28,70 +29,116 @@
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx34fbc458caac49f6b3fd63b8e1dcadd5"></script>
   <script type="text/javascript">
     var x, y;
-        function initTmap() {
-            $("#search").click(function () {
-                var search_s = $('#start').val(); //출발지
-                var search_e = $('#end').val(); //도착지
-                //출발지 검색하고 신주소로 출력
-                $.ajax({
-                    method: "GET",
-                    url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
-                    async: false,
-                    data: {
-                        "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-                        "searchKeyword": search_s,
-                        "resCoordType": "EPSG3857",
-                        "reqCoordType": "WGS84GEO",
-                        "count": 1
-                    },
-                    success: function (response) {
-                        var resultpoisData = response.searchPoiInfo.pois.poi;    
-                        var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
-                        var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
-                        var pointCng = new Tmapv2.Point(noorLon, noorLat);
-                        var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-                        var lat = projectionCng._lat; 
-                        var lon = projectionCng._lng;
-                        var name = reverseGeo(lon, lat); //새주소로 이름 변경
-                        document.getElementById("start").value = name;// 검색된 내용으로 상세 표시 
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
-                });
-                //도착지 검색하고 신주소로 출력
-                $.ajax({
-                    method: "GET",
-                    url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
-                    async: false,
-                    data: {
-                        "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-                        "searchKeyword": search_e,
-                        "resCoordType": "EPSG3857",
-                        "reqCoordType": "WGS84GEO",
-                        "count": 1
-                    },
-                    success: function (response) {
-                        var resultpoisData = response.searchPoiInfo.pois.poi;    
-                        var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
-                        var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
-                        var pointCng = new Tmapv2.Point(noorLon, noorLat);
-                        var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-                        var lat = projectionCng._lat; 
-                        var lon = projectionCng._lng;
-                        var name = reverseGeo(lon, lat); //새주소로 이름 변경
-                        document.getElementById("end").value = name;// 검색된 내용으로 상세 표시 
-                    },
-                    error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                    }
-                });
-            });
+        function reload_list() { //주소값 검색을 위한 함수
+          var search_s = $('#start').val(); //출발지
+          var search_e = $('#end').val(); //도착지
+          //출발지 검색하고 신주소로 출력
+          $.ajax({
+              method: "GET",
+              url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
+              async: false,
+              data: {
+                  "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
+                  "searchKeyword": search_s,
+                  "resCoordType": "EPSG3857",
+                  "reqCoordType": "WGS84GEO",
+                  "count": 1
+              },
+              success: function (response) {
+                  var resultpoisData = response.searchPoiInfo.pois.poi;    
+                  var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
+                  var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
+                  var pointCng = new Tmapv2.Point(noorLon, noorLat);
+                  var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+                  var lat = projectionCng._lat; 
+                  var lon = projectionCng._lng;
+                  var name = reverseGeo(lon, lat); //새주소로 이름 변경
+                  document.getElementById("start").value = name;// 검색된 내용으로 상세 표시 
+              },
+              error: function (request, status, error) {
+                  console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+              }
+          });
+          //도착지 검색하고 신주소로 출력
+          $.ajax({
+              method: "GET",
+              url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
+              async: false,
+              data: {
+                  "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
+                  "searchKeyword": search_e,
+                  "resCoordType": "EPSG3857",
+                  "reqCoordType": "WGS84GEO",
+                  "count": 1
+              },
+              success: function (response) {
+                  var resultpoisData = response.searchPoiInfo.pois.poi;    
+                  var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
+                  var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
+                  var pointCng = new Tmapv2.Point(noorLon, noorLat);
+                  var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
+                  var lat = projectionCng._lat; 
+                  var lon = projectionCng._lng;
+                  var name = reverseGeo(lon, lat); //새주소로 이름 변경
+                  document.getElementById("end").value = name;// 검색된 내용으로 상세 표시 
+              },
+              error: function (request, status, error) {
+                  console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+              }
+          });
+
+          $("#list > tr").remove();
+          var list=null;
+          <%
+          Class.forName("com.mysql.cj.jdbc.Driver"); 
+          Connection conn =null;
+          PreparedStatement pstmt =null;
+          ResultSet rs =null;
+          try {
+                                  
+              String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+              String dbUser ="taxi"; //mysql id
+              String dbPass ="1234"; //mysql password
+              String query ="select * from taxi"; //query
+              
+              // Create DB Connection
+              conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+              // Create Statement
+              pstmt = conn.prepareStatement(query);
+              
+              // Run Qeury
+              rs = pstmt.executeQuery();
+              // Print Result (Run by Query)
+              while(rs.next()) {
+          %>
+                  
+                  list = '<tr style="cursor:pointer;"><td><%= rs.getString("group_num")%></td><td><%= rs.getString("day")%><br><%= rs.getString("daytime")%></td></td><td><%= rs.getString("start")%></td><td><%= rs.getString("end")%></tr>';
+                  $("#list").append(list);
+          
+          <%
+              }
+          } catch(SQLException ex) {
+              out.println(ex.getMessage());
+              ex.printStackTrace();
+          } finally {
+              if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+              if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+              if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+          }
+          %>
+
+          $('#list tr').click( function(){
+              var data = $(this).children();
+              location.replace("detail-info.jsp?num="+data.eq(0).text());
+              
+          })
         }     
+
+        //초기 로딩 시 
     </script>
 </head>
 
-<body onload="initTmap();" class="main bg-gray-200" >
+<body class="main bg-gray-200" >
   <!-- Navbar -->
   <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
@@ -180,7 +227,7 @@
               <input class="form-control me-2 border p-2 m-2" id="start" type="search" placeholder="출발지" aria-label="Search">
               <input class="form-control me-2 border p-2 m-2" id="end" type="search" placeholder="도착지" aria-label="Search">
             </div>
-            <button class="btn btn-outline-success my-1 p-4 ms-4 fs-6" type="button" id="input">조회</button>
+            <button class="btn btn-outline-success my-1 p-4 ms-4 fs-6" type="button" id="input" onclick="reload_list();">조회</button>
           </div>
         </form>
           <div  class="row justify-content-center text-center my-sm-5" >
@@ -196,31 +243,16 @@
             <!--구인 글 목록-->
             <!--table 동적으로 -->
             <!--부트스트랩 동적 테이블 검색해서 사용-->
-            <table class="table">
+            <table class="table" id="list">
               <thead class="table-light">
                 <tr>
-                  <th scope="col">출발지</th>
-                  <th scope="col">도착지</th>
-                  <th scope="col">예상 가격</th>
+                  <th scope="col" style="text-align: center;" >번호</th>
+                  <th scope="col" style="width: 15%;">시간</th>
+                  <th scope="col" style="width: 35%;" >출발지</th>
+                  <th scope="col" style="width: 35%;">도착지</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr onClick="location.href='#'" style="cursor:pointer;">
-                  <td scope="row">부산시 부산진구 가야동</td>
-                  <td>동의대학교 정보공학관</td>
-                  <td>3800￦</td>
-                </tr>
-                <tr onClick="location.href='#'" style="cursor:pointer;">
-                  <td scope="row">출발지1</td>
-                  <td>도착지1</td>
-                  <td>가격1</td>
-                </tr>
-                <tr onClick="location.href='#'" style="cursor:pointer;">
-                  <td scope="row">출발지2</td>
-                  <td>도착지2</td>
-                  <td>가격2</td>
-                </tr>
-              </tbody>
+              
             </table>
         </div>
         </div>
