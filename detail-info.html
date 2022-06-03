@@ -32,8 +32,8 @@
       //기본 지도 설정
       map = new Tmapv2.Map("map", {
         center: new Tmapv2.LatLng(37.49241689559544, 127.03171389453507),
-        width: "47%",
-        height: "450px",
+        width: "100%",
+        height: "400px",
         zoom: 13,
         zoomControl: false,
         scrollwheel: true
@@ -46,7 +46,7 @@
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
-      <a class="navbar-brand  text-white " href="main.html" data-placement="bottom">
+      <a class="navbar-brand  text-white " href="main.jsp" data-placement="bottom">
         함께 갈래요?
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
         <ul class="navbar-nav navbar-nav-hover ms-auto">
           <!--첫 번째 메뉴(마이페이지)-->
           <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.jsp">
               <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
               마이페이지
               <img class="arrow ms-2 d-lg-block d-none">
@@ -73,6 +73,14 @@
             <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
+              <img class="arrow ms-2 d-lg-block d-none">
+              <img class="arrow ms-2 d-lg-none d-block">
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="logout" href="sign-in.jsp">
+              <i class="material-icons opacity-6 me-2 text-md">view_day</i>
+              로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
             </a>
@@ -96,21 +104,28 @@
   <div class="card card-body shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
     <!-- START Testimonials w/ user image & text & info -->
     <section class="py-sm-7 py-5 position-relative">
-      <div class="row">
-        <div class="col-lg-10 col-md-10 col-sm-11 mx-auto">
-          <div class="mt-4 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-            <div class="row mx-auto">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mx-auto">
+            <div class="col-lg-9 col-md-9 mt-4 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+              <h3 class="mb-1">글 등록자의 사용자명</h3>
+              <hr width="100%" color="#B2B2B2" noshade />
+            </div>
+            <div class="col-lg-8 col-md-8 mt-4 px-md-2 px-sm-5 mx-auto">
                 <!--지도 넣을 부분-->
-                <div id="map" class="col-md-6 mb-3" style="margin-right: 6px;"></div>
+                <div id="map" class="align-items-center me-5 mb-5"></div>
                 <!--설명 나와야 하는 부분-->
-                <div class="col-md-6 mb-3">
                     <form class="position-relative align-items-center">
-                        <!--해당 글을 작성한 사람의 이름을 동적으로 가져오기-->
-                        <h5 class="mb-4">사용자명</h5>
                         출발지 <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
                         도착지 <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
-                        날짜 <input type="text" id="datePicker" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
-                        시간 <input type="text" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
+                        <div class="row">
+                          <div class="col-md-6">
+                            날짜 <input type="text" id="datePicker" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
+                          </div>
+                          <div class="col-md-6">
+                            시간 <input type="text" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
+                          </div>
+                        </div>
                         예상가격 (1인당) <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
                         상세설명 <textarea class="form-control-plaintext border p-2 mt-1 mb-3" id="floatingTextarea2" style="height: 12rem; resize: none;" readonly></textarea>
                         <div class="d-flex justify-content-end mt-5">
@@ -118,10 +133,10 @@
                             <button class="btn btn-primary col-lg-2 col-md-2 col-5 ms-3 fs-6" type="button" id="join">참가</button>
                         </div>
                       </form>
-                </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
     <!-- END Testimonials w/ user image & text & info -->
