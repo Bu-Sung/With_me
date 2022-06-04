@@ -107,7 +107,7 @@
           </li>
           <!--두 번째 메뉴(예약 내역)-->
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.jsp">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
               <img class="arrow ms-2 d-lg-block d-none">
