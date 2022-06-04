@@ -18,6 +18,7 @@
     String one = null;  
     String two = null;  
     String three = null;  
+    int people = 1;  // 인원수
 
     try {
         String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
@@ -43,7 +44,6 @@
             two = rs.getString("two");
             three = rs.getString("three");
         }
-    
     } catch(SQLException ex) {
         out.println(ex.getMessage());
         ex.printStackTrace();
@@ -55,6 +55,42 @@
         if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
     }
 
+
+    // taxi 테이블에서 people 값 가져옴
+    // MySQL JDBC Driver Loading
+    Class.forName("com.mysql.cj.jdbc.Driver"); 
+
+    try {
+        String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+        String dbUser ="taxi"; //mysql id
+        String dbPass ="1234"; //mysql password
+                    
+        String sql = "select * from taxi where group_num = ?";
+        // Create DB Connection
+        conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+        // Create Statement
+        pstmt = conn.prepareStatement(sql);
+                    
+        //pstmt 생성
+        pstmt.setString(1,num);
+                    
+        // Run Qeury
+        rs = pstmt.executeQuery();
+        // Print Result (Run by Query)
+                                    
+        if(rs.next()){
+            people = rs.getInt("people");
+        }
+    } catch(SQLException ex) {
+        out.println(ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        // Close Statement
+        if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+        if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+        // Close Connection
+        if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+    }
 
 
 
@@ -87,16 +123,15 @@
                 pstmt.setString(2,num);
                 pstmt.executeUpdate();
 
+                
                 %>
                 <script>
                     alert("참가 완료!!");
                     location.href= "main.jsp";
                 </script>
                 <%
-
-                return;
-            
-
+                people = 2;  // 인원수 2명
+                
             } catch(SQLException ex) {
                 out.println(ex.getMessage());
                 ex.printStackTrace();
@@ -126,7 +161,7 @@
         // 그룹에 leader, one만 존재하기 때문에 
         // 자신의 아이디가 leader 값과 one 값과 같지않으면 참가 가능
         // , 같으면 참가 불가능 (이미 참가된 그룹이기 때문에)
-        if((leader.equals(uid) && one.equals(uid))) {
+        if(!(leader.equals(uid) || one.equals(uid))) {
             Class.forName("com.mysql.cj.jdbc.Driver"); 
 
             try {
@@ -145,13 +180,14 @@
                 pstmt.setString(2,num);
                 pstmt.executeUpdate();
 
+                
                 %>
                 <script>
                     alert("참가 완료!!");
                     location.href= "main.jsp";
                 </script>
                 <%
-                return;
+                people = 3;  // 인원수 3명
            
             } catch(SQLException ex) {
                 out.println(ex.getMessage());
@@ -182,7 +218,7 @@
         // 그룹에 leader, one, two만 존재하기 때문에 
         // 자신의 아이디가 leader 값과 one 값과 two 값과 같지않으면 참가 가능
         // , 같으면 참가 불가능 (이미 참가된 그룹이기 때문에)
-        if(!(leader.equals(uid) && one.equals(uid) && two.equals(uid))) {
+        if(!(leader.equals(uid) || one.equals(uid) || two.equals(uid))) {
  
             Class.forName("com.mysql.cj.jdbc.Driver"); 
 
@@ -202,13 +238,14 @@
                 pstmt.setString(2,num);
                 pstmt.executeUpdate();
 
+                
                 %>
                 <script>
                     alert("참가 완료!!");
                     location.href= "main.jsp";
                 </script>
                 <%
-                return;
+                people = 4;  // 인원수 4명
            
 
             } catch(SQLException ex) {
@@ -245,3 +282,41 @@
     }  // end-else
 
 %>
+
+
+
+
+// taxi 테이블의 people 인원수 수정
+
+    <% // MySQL JDBC Driver Loading
+        Class.forName("com.mysql.cj.jdbc.Driver"); 
+
+        try {
+            String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+            String dbUser ="taxi"; //mysql id
+            String dbPass ="1234"; //mysql password
+                    
+            String sql = "update taxi set people = ? where group_num = ?";
+
+            // Create DB Connection
+            conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+            // Create Statement
+            pstmt = conn.prepareStatement(sql);
+                    
+            //pstmt 생성
+            pstmt.setInt(1,people);
+            pstmt.setString(2,num);
+            pstmt.executeUpdate();
+
+   
+        } catch(SQLException ex) {
+            out.println(ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            // Close Statement
+            if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+            if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+            // Close Connection
+            if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+        }
+    %>
