@@ -13,7 +13,6 @@
     String user_pw = null;
     String user_name = null;
     String user_phone = null;
-
     try {
         String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
         String dbUser ="taxi"; //mysql id
@@ -108,7 +107,7 @@
           </li>
           <!--두 번째 메뉴(예약 내역)-->
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.jsp">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
               <img class="arrow ms-2 d-lg-block d-none">
@@ -181,18 +180,59 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onClick="location.href='#'" style="cursor:pointer;">
-                      <td scope="row">부산시 부산진구 가야동</td>
-                      <td>동의대학교 정보공학관</td>
-                    </tr>
-                    <tr onClick="location.href='#'" style="cursor:pointer;">
-                      <td scope="row">출발지1</td>
-                      <td>도착지1</td>
-                    </tr>
-                    <tr onClick="location.href='#'" style="cursor:pointer;">
-                      <td scope="row">출발지2</td>
-                      <td>도착지2</td>
-                    </tr>
+
+                <% // MySQL JDBC Driver Loading
+                Class.forName("com.mysql.cj.jdbc.Driver"); 
+
+                uid = session.getAttribute("sid").toString();
+                String start = null;
+                String end = null;
+
+                try {
+                String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+                String dbUser ="taxi"; //mysql id
+                String dbPass ="1234"; //mysql password
+                        
+                String sql = "select taxi.start, taxi.end from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
+    
+                // Create DB Connection
+                conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+                // Create Statement
+                pstmt = conn.prepareStatement(sql);
+                        
+                //pstmt 생성
+                pstmt.setString(1,uid);
+                pstmt.setString(2,uid);
+                pstmt.setString(3,uid);
+                pstmt.setString(4,uid);
+                        
+                // Run Qeury
+                rs = pstmt.executeQuery();
+                // Print Result (Run by Query)
+                        
+                while(rs.next()) {
+
+                  %>  
+                <tr onClick="location.href='#'" style="cursor:pointer;">
+                <td scope="row"> <% out.println(rs.getString("start")); %></td>
+                <td> <% out.println(rs.getString("end")); %> </td>
+                </tr>
+                  <%
+
+                } 
+                        
+              } catch(SQLException ex) {
+                out.println(ex.getMessage());
+                ex.printStackTrace();
+              } finally {
+              // Close Statement
+              if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+              if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+              // Close Connection
+              if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+              }
+              %>
+
                   </tbody>
                 </table>
               </div>
