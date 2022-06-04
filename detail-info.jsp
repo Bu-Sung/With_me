@@ -135,7 +135,52 @@
                         예상가격 (1인당) <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
                         상세설명 <textarea class="form-control-plaintext border p-2 mt-1 mb-3" id="floatingTextarea2" style="height: 12rem; resize: none;" readonly></textarea>
                         <div class="d-flex justify-content-end mt-5">
-                            <p class="pt-2">1/4</p>
+                            <p class="pt-2">
+                              <% 
+                              // taxi 테이블에서 people 값 가져옴
+                              // MySQL JDBC Driver Loading
+                              Class.forName("com.mysql.cj.jdbc.Driver"); 
+                              Connection conn =null;
+                              PreparedStatement pstmt = null;
+                              ResultSet rs =null;
+ 
+                              int people = 1;  // 인원수
+
+                              try {
+                              String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+                              String dbUser ="taxi"; //mysql id
+                              String dbPass ="1234"; //mysql password
+                    
+                              String sql = "select people from taxi where group_num = ?";
+                              // Create DB Connection
+                              conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+                              // Create Statement
+                              pstmt = conn.prepareStatement(sql);
+                    
+                              //pstmt 생성
+                              pstmt.setString(1,num);
+
+                              // Run Qeury
+                              rs = pstmt.executeQuery();
+                              // Print Result (Run by Query)
+           
+                              while(rs.next()){
+                                people = rs.getInt(people);
+                                out.println(people);
+                              }
+    
+                              } catch(SQLException ex) {
+                                out.println(ex.getMessage());
+                                ex.printStackTrace();
+                              } finally {
+                              // Close Statement
+                                if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+                                if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+                                // Close Connection
+                                if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+                                }
+                              %>
+                              /4</p>
                             <button class="btn btn-primary col-lg-2 col-md-2 col-5 ms-3 fs-6" type="sumbit" id="join" formaction="enter.jsp">참가</button>
                         </div>
                       </form>
