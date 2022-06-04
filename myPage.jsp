@@ -2,13 +2,15 @@
     pageEncoding="utf-8"%>
 <%@ page import ="java.sql.*" %>
 
-<% // MySQL JDBC Driver Loading
+<% 
+    // user 테이블에서 정보 가져옴
+    // MySQL JDBC Driver Loading
     Class.forName("com.mysql.cj.jdbc.Driver"); 
     Connection conn =null;
     PreparedStatement pstmt = null;
     ResultSet rs =null;
     
-    String uid = session.getAttribute("sid").toString();
+    String uid = session.getAttribute("sid").toString();  // 아이디 세션 값 가져옴
     String user_id = null;
     String user_pw = null;
     String user_name = null;
@@ -51,7 +53,6 @@
         }
  %>
 
-<!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
@@ -181,7 +182,9 @@
                   </thead>
                   <tbody>
 
-                <% // MySQL JDBC Driver Loading
+                <% 
+                // member 테이블에서 자신의 id가 속한 그룹 번호에 해당하는 taxi 테이블에서 출발지, 도착지 정보 출력하기
+                // MySQL JDBC Driver Loading
                 Class.forName("com.mysql.cj.jdbc.Driver"); 
 
                 uid = session.getAttribute("sid").toString();
