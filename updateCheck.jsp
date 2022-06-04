@@ -34,27 +34,23 @@
                     pstmt.setString(4,uid);
                     pstmt.executeUpdate();
 
-                        //out.println("수정성공");
-                    
-
-                    // Run Qeury
-  
-
-                    // Print Result (Run by Query)
- 
-                    
-                    
-            } catch(SQLException ex) {
-                out.println(ex.getMessage());
-                ex.printStackTrace();
-            } finally {
-                // Close Statement
-                if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
-                if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
-                // Close Connection
-                if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
-            }
+                    %>
+                    <script>
+                        alert("수정 완료!!");
+                        location.href= "myPage.jsp";
+                    </script>
+                    <%
+   
+                } catch(SQLException ex) {
+                    out.println(ex.getMessage());
+                    ex.printStackTrace();
+                } finally {
+                    // Close Statement
+                    if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+                    if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+                    // Close Connection
+                    if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+                }
             %>
 
-            <% response.sendRedirect("myPage.jsp"); %>
-  
+

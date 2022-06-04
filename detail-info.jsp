@@ -6,7 +6,9 @@
 
 <head>
   
-  <% String num = request.getParameter("num"); //메인에서 클릭이벤트로 넘어온 그룹 번호 값%>
+  <% String num = request.getParameter("num"); //메인에서 클릭이벤트로 넘어온 그룹 번호 값
+  session.setAttribute("snum", num);  // 그룹번호 세션값에 저장
+  %>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
@@ -134,7 +136,7 @@
                         상세설명 <textarea class="form-control-plaintext border p-2 mt-1 mb-3" id="floatingTextarea2" style="height: 12rem; resize: none;" readonly></textarea>
                         <div class="d-flex justify-content-end mt-5">
                             <p class="pt-2">1/4</p>
-                            <button class="btn btn-primary col-lg-2 col-md-2 col-5 ms-3 fs-6" type="button" id="join">참가</button>
+                            <button class="btn btn-primary col-lg-2 col-md-2 col-5 ms-3 fs-6" type="sumbit" id="join" formaction="enter.jsp">참가</button>
                         </div>
                       </form>
             </div>
