@@ -1,3 +1,5 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import ="java.sql.*" %>
 <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
@@ -19,6 +21,15 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.2" rel="stylesheet" />
+  <!--js-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script
+  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx34fbc458caac49f6b3fd63b8e1dcadd5"></script>
+  <script type="text/javascript">
+      function completion(){ // 탑승 완료시 처리
+        var num = $('#num').value;
+        location.href = "completion.jsp?num="+num;
+      }
+  </script>
 </head>
 
 <body class="chat">
@@ -28,7 +39,7 @@
       <div class="col-12">
         <nav class="navbar navbar-expand-lg  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid px-0">
-            <a class="navbar-brand font-weight-bolder ms-sm-3" href="main.html" data-placement="bottom">
+            <a class="navbar-brand font-weight-bolder ms-sm-3" href="main.jsp" data-placement="bottom">
               함께 갈래요?
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +52,7 @@
             <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
               <ul class="navbar-nav navbar-nav-hover ms-auto">
                 <li class="nav-item dropdown dropdown-hover mx-2">
-                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuPages" href="myPage.html">
+                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuPages" href="myPage.jsp">
                     <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
                     마이페이지
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
@@ -49,9 +60,17 @@
                   </a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover mx-2">
-                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks"href="reservation.html">
+                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
                     <i class="material-icons opacity-6 me-2 text-md">view_day</i>
                     예약내역
+                    <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
+                    <img class="arrow ms-auto ms-md-2 d-lg-none d-block">
+                  </a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="logout"href="sign-in.jsp">
+                    <i class="material-icons opacity-6 me-2 text-md">view_day</i>
+                    로그아웃
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
                     <img class="arrow ms-auto ms-md-2 d-lg-none d-block">
                   </a>
@@ -70,15 +89,14 @@
       <div class="row">
         <div class="col-lg-10 col-md-10 col-12 mx-auto">
           <div class="card mt-7 position-relative">
-            <h5 class="card-header col-12 bg-light position-absolute">주소 동적으로 가져오기</h5>
+            <h5 class="card-header col-12 bg-light position-absolute" id="num">주소 동적으로 가져오기</h5>
             <div class="d-flex justify-content-end">
               <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" style="height: 4.7rem;" data-bs-toggle="dropdown" aria-expanded="false">
                   menu
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><button class="dropdown-item" type="button">탑승 확정</a></li>
-                  <li><button class="dropdown-item" type="button">채팅방 나가기</a></li>
+                  <li><button class="dropdown-item" type="button" onclick="completion();">탑승 확정</a></li>
                 </ul>
               </div>
             </div>

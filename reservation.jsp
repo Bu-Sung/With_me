@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%@ page import ="java.sql.*" %>
+    <%@ page import ="java.sql.*" %>
 
+    
 
- 
+    <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
@@ -34,7 +35,7 @@
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
-      <a class="navbar-brand  text-white " href="main.html" data-placement="bottom">
+      <a class="navbar-brand  text-white " href="main.jsp" data-placement="bottom">
         함께 갈래요?
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +50,7 @@
         <ul class="navbar-nav navbar-nav-hover ms-auto">
           <!--첫 번째 메뉴(마이페이지)-->
           <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.jsp">
               <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
               마이페이지
               <img class="arrow ms-2 d-lg-block d-none">
@@ -61,6 +62,14 @@
             <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
+              <img class="arrow ms-2 d-lg-block d-none">
+              <img class="arrow ms-2 d-lg-none d-block">
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="sign-in.jsp">
+              <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+              로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
             </a>
@@ -108,80 +117,62 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">부산시 부산진구 가야동 
-                      <% // MySQL JDBC Driver Loading
-    Class.forName("com.mysql.cj.jdbc.Driver"); 
-    Connection conn =null;
-    PreparedStatement pstmt = null;
-    ResultSet rs =null;
+                  <% // MySQL JDBC Driver Loading
+                  Class.forName("com.mysql.cj.jdbc.Driver"); 
+                  Connection conn =null;
+                  PreparedStatement pstmt = null;
+                  ResultSet rs =null;
     
-    String uid = session.getAttribute("sid").toString();
-    String user_id = null;
-    String user_pw = null;
-    String user_name = null;
-    String user_phone = null;
-    String group_num = null;
-    String[] gn = new String[30];  
+                  String uid = session.getAttribute("sid").toString();
+                  String start = null;
+                  String end = null;
+                  String price = null;
+                    try {
+                    String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+                    String dbUser ="taxi"; //mysql id
+                    String dbPass ="1234"; //mysql password
+                        
+                    String sql = "select taxi.start, taxi.end, taxi.price from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
+    
+                    // Create DB Connection
+                    conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+                    // Create Statement
+                    pstmt = conn.prepareStatement(sql);
+                        
+                    //pstmt 생성
+                    pstmt.setString(1,uid);
+                    pstmt.setString(2,uid);
+                    pstmt.setString(3,uid);
+                    pstmt.setString(4,uid);
+                        
+                    // Run Qeury
+                    rs = pstmt.executeQuery();
+                    // Print Result (Run by Query)
+                        
+                    while(rs.next()) {
 
-    try {
-        String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
-        String dbUser ="taxi"; //mysql id
-        String dbPass ="1234"; //mysql password
-                        
-        //String sql = "select * from user where user_id = ?";
-        //String sql = "select u.user_id, m.group_num  from member as m inner join  user as u on  m.leader=? or m.one=? or m.two=? or m.three=?";
-        //String sql = "select group_num  from member where leader=? or one=? or two=? or three=?";
-        String sql = "select  taxi.start from taxi where taxi.group_num in (select member.group_num from member where member.leader = ?)";
+                        %>  
+                        <tr onClick="location.href='#'" style="cursor:pointer;">
+                        <td scope="row"> <% out.println(rs.getString("start")); %></td>
+                        <td> <% out.println(rs.getString("end")); %> </td>
+                        <td><% out.println(rs.getString("price")); %>￦</td>
+                        </tr>
+                        <%
 
-        // Create DB Connection
-        conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
-        // Create Statement
-        pstmt = conn.prepareStatement(sql);
+                    } 
                         
-        //pstmt 생성
-        pstmt.setString(1,uid);
-        pstmt.setString(2,uid);
-        pstmt.setString(3,uid);
-        pstmt.setString(4,uid);
-                        
-        // Run Qeury
-        rs = pstmt.executeQuery();
-        // Print Result (Run by Query)
-                        
-        while(rs.next()) {
-          
-            //user_id = rs.getString("user_id");
-            //group_num = rs.getString("group_num");
-            out.println(rs.getString("group_num")); 
-          } 
-                        
-    } catch(SQLException ex) {
-        out.println(ex.getMessage());
-        ex.printStackTrace();
-      } finally {
-          // Close Statement
-          if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
-          if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
-          // Close Connection
-          if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
-        }
- %>
-
-                    </td>
-                    <td>동의대학교 정보공학관  </td>
-                    <td>3800￦</td>
-                  </tr>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">출발지1</td>
-                    <td>도착지1</td>
-                    <td>가격1</td>
-                  </tr>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">출발지2</td>
-                    <td>도착지2</td>
-                    <td>가격2</td>
-                  </tr>
+                } catch(SQLException ex) {
+                    out.println(ex.getMessage());
+                    ex.printStackTrace();
+                } finally {
+                    // Close Statement
+                    if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+                    if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+                    // Close Connection
+                    if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+                }
+            %>
+                  
                 </tbody>
               </table>
             </div>

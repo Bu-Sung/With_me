@@ -1,3 +1,4 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
@@ -57,7 +58,7 @@
       map = new Tmapv2.Map("map", {
         center: new Tmapv2.LatLng(37.49241689559544, 127.03171389453507),
         width: "100%",
-        height: "300px",
+        height: "400px",
         zoom: 13,
         zoomControl: false,
         scrollwheel: true
@@ -186,6 +187,7 @@
       resultdrawArr = [];
     }
   </script>
+
 </head>
 
 <body onload="initTmap();" class="registration bg-gray-200">
@@ -193,7 +195,7 @@
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
-      <a class="navbar-brand  text-white " href="main.html" data-placement="bottom">
+      <a class="navbar-brand  text-white " href="main.jsp" data-placement="bottom">
         함께 갈래요?
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
@@ -210,7 +212,7 @@
           <!--첫 번째 메뉴(마이페이지)-->
           <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
             <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
-              id="dropdownMenuPages8" href="myPage.html">
+              id="dropdownMenuPages8" href="myPage.jsp">
               <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
               마이페이지
               <img class="arrow ms-2 d-lg-block d-none">
@@ -223,6 +225,14 @@
               id="dropdownMenuBlocks" href="reservation.html">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
+              <img class="arrow ms-2 d-lg-block d-none">
+              <img class="arrow ms-2 d-lg-none d-block">
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="sign-in.jsp">
+              <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+              로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
             </a>
@@ -242,8 +252,6 @@
     </div>
   </header>
 
-
-
   <!-- -------- END HEADER 4 w/ search book a ticket form ------- -->
   <div class="card card-body shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
     <!-- START Testimonials w/ user image & text & info -->
@@ -257,38 +265,40 @@
             </div>
             <div class="col-lg-8 col-md-8 mt-4 px-md-2 px-sm-5 mx-auto">
               <div id="map"></div>
-              <form class="justify-content-center my-sm-5 align-items-center mt-4" onsubmit="return false">
-                출발지 <input class="form-control border p-2 mt-1 mb-3" id="start" type="search" placeholder="출발지">
-                도착지 <input class="form-control border p-2 mt-1 mb-3" id="end" type="search" placeholder="도착지">
+              <form class="justify-content-center my-sm-5 align-items-center mt-4" action="ActionRegistration.jsp" method="post" role="form">
+                출발지 <input class="form-control border p-2 mt-1 mb-3" id="start" name="start" type="search" placeholder="출발지" required>
+                도착지 <input class="form-control border p-2 mt-1 mb-3" id="end" name="end" type="search" placeholder="도착지" required>
                 <div class="row">
                   <div class="col-lg-6 col-md-6">
                     인원수
                     <div class="d-flex justify-content-center">
                       <input type="number" name="wr_1" id="num" class="form-control border p-2 mt-1 mb-3 me-2" min="2"
-                        max="4" placeholder="2 ~ 4">
+                        max="4" placeholder="2 ~ 4" required>
                       <button class="btn btn-outline-success mt-1 mb-3" type="button" id="input"
                         style="width:7rem;height:42px">조회</button>
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6">
-                    예상가격<input id="price" class="form-control-plaintext p-2 mt-1 mb-3" placeholder="조회 클릭시 확인 가능"
+                    예상가격<input id="price" name="price" class="form-control-plaintext p-2 mt-1 mb-3" placeholder="조회 클릭시 확인 가능"
                       readonly>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-6 col-md-6">
-                    날짜 <input type="text" id="datePicker" class="form-control border p-2 mt-1 mb-3"
-                      placeholder="날짜 선택 (최대 15일 이후까지 선택 가능)">
+                    날짜 <input type="text" id="datePicker" name="date" class="form-control border p-2 mt-1 mb-3"
+                      placeholder="날짜 선택 (최대 15일 이후까지 선택 가능)" required>
                   </div>
                   <div class="col-lg-6 col-md-6">
-                    시간 <input type="time" class="form-control border p-2 mt-1 mb-3">
+                    시간 <input type="time" name="time" class="form-control border p-2 mt-1 mb-3" required>
                   </div>
                 </div>
                 상세설명 <textarea class="form-control border p-2 mt-1 mb-3" placeholder="상세설명을 작성해주세요."
-                  id="floatingTextarea2" style="height: 12rem; resize: none;"></textarea>
-                <button type="submit" class="btn btn-primary mt-3 fs-6">
+                  id="floatingTextarea2" name="text" style="height: 12rem; resize: none;" required></textarea>
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary mt-3 fs-6">
                   등록
                 </button>
+              </div>
               </form>
             </div>
           </div>
@@ -297,6 +307,8 @@
     </section>
     <!-- END Testimonials w/ user image & text & info -->
   </div>
+
+
 
   <!-- -------- END FOOTER 5 w/ DARK BACKGROUND ------- -->
   <!--   Core JS Files   -->

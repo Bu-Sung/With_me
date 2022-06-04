@@ -23,15 +23,16 @@
   <link id="pagestyle" href="./assets/css/material-kit.css?v=3.0.2" rel="stylesheet" />
 
   <%
-    String error=(String)session.getAttribute("error");
-    if (error!=null) { %>
-    <script type="text/javascript">
-      alert("로그인 실패");
-    </script>
-  <% } %>
+    String err_phone=(String)session.getAttribute("err_phone");
+    if (err_phone==null) err_phone="";
+  %>
+  <%
+  String find_id=(String)session.getAttribute("find_id");
+  if (find_id==null) find_id="";
+%>
 
-  <!--세션 제거-->
   <% session.invalidate(); %>
+  <!--세션 제거-->
 </head>
 
 <body class="sign-in-basic">
@@ -52,39 +53,21 @@
           <div class="card z-index-0 fadeIn3 fadeInBottom">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Find id</h4>
               </div>
             </div>
 
             <div class="card-body">
-              <form action="signIn.jsp" method="post" role="form" class="text-start">
+              <form action="findId.jsp" method="post" role="form" class="text-start">
                 <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Id</label>
-                  <input type="text" name="id" class="form-control" required>
+                  <label class="form-label">Phone number</label>
+                  <input type="text" name="phone" class="form-control" required>
                 </div>
-                <div class="input-group input-group-outline mb-3">
-                  <label class="form-label">Password</label>
-                  <input type="password" name="pw" class="form-control" required>
-                </div>
-                
+                <!--에러메시지 출력-->
+                <div class="mb-3" id="phone_error" style="color:#e91e63"><%=err_phone%><%=find_id%></div>
                 <div class="text-center">
-                  <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+                  <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">FIND ID</button>
                 </div>
-                <div class="d-flex justify-content-evenly" style="margin-top: 1.2rem;">
-                  <div><a class="mt-4 fs-6" href="find-id.jsp">아이디 찾기</a>
-                  </div>
-                  <div>
-                  <label>/</label>
-                  </div>
-                  <div>
-                  <a class="mt-4 fs-6" href="find-pw.jsp">비밀번호 찾기</a>
-                  </div>
-                </div>
-                <div class="text-center" style="margin-top: 1.2rem;">
-                <a class="mt-4 fs-6" href="sign-up.jsp">
-                  아이디가 없으신가요?
-                </a>
-              </div>
               </form>
             </div>
           </div>
