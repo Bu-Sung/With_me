@@ -7,7 +7,8 @@
 <head>
   
   <% String num = request.getParameter("num"); //메인에서 클릭이벤트로 넘어온 그룹 번호 값
-  session.setAttribute("snum", num);  // 그룹번호 세션값에 저장
+    session.setAttribute("snum", num);  // 그룹번호 세션값에 저장
+
   %>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,11 +31,79 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
   
-  <!-- Tmap API -->
-  <script src="tmap.js"></script>
+  <!--tmap.js 함수 사용-->
+  <script language="JavaScript" src="tmap.js"></script>
+  <!--tmap API 사용-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx34fbc458caac49f6b3fd63b8e1dcadd5"></script>
   <script type="text/javascript">
+    var map;
+    var marker_s;
+    var marker_e;
+    var user;
+    var start;
+    var end;
+    var day;
+    var daytime;
+    var price;
+    var text;
+    var join;
+    var max;
+    var drawInfoArr = [];
+    var resultdrawArr = [];
+    var markerArr_s = []; //출발지 검색된 값 
+    var markerArr_e = []; //도착지 검색된 값 
     function initTmap() {
+      <% 
+        // taxi 테이블 정보가져오기
+        // MySQL JDBC Driver Loading
+        Class.forName("com.mysql.cj.jdbc.Driver"); 
+        Connection conn =null;
+        PreparedStatement pstmt = null;
+        ResultSet rs =null;
+
+        try {
+        String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+        String dbUser ="taxi"; //mysql id
+        String dbPass ="1234"; //mysql password
+
+        String sql = "select * from taxi nature join member using(group_num) where group_num = ?";
+        // Create DB Connection
+        conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+        // Create Statement
+        pstmt = conn.prepareStatement(sql);
+
+        //pstmt 생성
+        pstmt.setString(1,num);
+
+        // Run Qeury
+        rs = pstmt.executeQuery();
+        // Print Result (Run by Query)
+
+          if(rs.next()){
+      %>
+            user = '<%= rs.getString("leader")%>';
+            start = '<%= rs.getString("start")%>';
+            end = '<%= rs.getString("end")%>';
+            day = '<%= rs.getString("day")%>';
+            daytime = '<%= rs.getString("daytime")%>';
+            price = '<%= rs.getString("div_price")%>';
+            text = '<%= rs.getString("detail")%>';
+            join = '<%= rs.getString("people")%>';
+            max = '<%= rs.getString("total_p")%>';
+      <%
+          }
+        } catch(SQLException ex) {
+          out.println(ex.getMessage());
+          ex.printStackTrace();
+        } finally {
+        // Close Statement
+          if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+          if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+          // Close Connection
+          if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+          }
+      %>
       //기본 지도 설정
       map = new Tmapv2.Map("map", {
         center: new Tmapv2.LatLng(37.49241689559544, 127.03171389453507),
@@ -44,7 +113,115 @@
         zoomControl: false,
         scrollwheel: true
       });
+      resettingMap();
+      //시작지점
+      let [sx,sy] = toPoint(start);
+      var s_m= new Tmapv2.LatLng(sy, sx);
+      marker_s = new Tmapv2.Marker({
+            position: s_m,
+            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_s.png",
+            iconSize: new Tmapv2.Size(24, 38),
+            title: reverseGeo(sx, sy), //주소이름
+            map: map
+      });
+      document.getElementById("start").value = start;// 시작 주소 검색을 상세하게 나타내기
+      markerArr_s.push(marker_s); //마커를 누르면 상세 주소
+      map.setCenter(s_m);
+      
+      //도착지
+      let [ex,ey] = toPoint(end);
+      var e_m =new Tmapv2.LatLng(ey, ex);
+      marker_e = new Tmapv2.Marker({
+            position: e_m,
+            icon: "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_e.png",
+            iconSize: new Tmapv2.Size(24, 38),
+            title: reverseGeo(ex, ey), //주소이름
+            map: map
+        });
+      document.getElementById("end").value = end;// 시작 주소 검색을 상세하게 나타내기
+      markerArr_s.push(marker_s); //마커를 누르면 상세 주소
+      
+      //정보설정
+      document.getElementById("datePicker").value = day;
+      document.getElementById("daytime").value = daytime;
+      document.getElementById("price").value = price;
+      document.getElementById("floatingTextarea2").value = text;
+      var a = join+"/"+max;
+      $('p').text(a);
+
+      //경로 그리기
+      $.ajax({
+        type: "POST",
+        url: "https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result",
+        async: false,
+        data: {
+            "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
+            "startX": sx,
+            "startY": sy,
+            "endX": ex,
+            "endY": ey,
+            "reqCoordType": "WGS84GEO",
+            "resCoordType": "EPSG3857",
+        },
+        success: function (response) {
+
+            var resultData = response.features;
+            for (var i in resultData) { //for문 [S]
+                var geometry = resultData[i].geometry;
+                var properties = resultData[i].properties;
+
+                if (geometry.type == "LineString") {
+                    for (var j in geometry.coordinates) {
+                        // 경로들의 결과값들을 포인트 객체로 변환 
+                        var latlng = new Tmapv2.Point(
+                            geometry.coordinates[j][0],
+                            geometry.coordinates[j][1]);
+                        // 포인트 객체를 받아 좌표값으로 변환
+                        var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
+                            latlng);
+                        // 포인트객체의 정보로 좌표값 변환 객체로 저장
+                        var convertChange = new Tmapv2.LatLng(convertPoint._lat, convertPoint._lng);
+                        // 배열에 담기
+                        drawInfoArr.push(convertChange);
+                    }//for문 끝
+                    drawLine(drawInfoArr);
+                }
+            }
+        } //키 인증 성공
+    }); //ajex끝
+      
     }
+    function drawLine(arrPoint) {
+            var polyline_;
+
+            var lineColor = "";
+            polyline_ = new Tmapv2.Polyline({
+                path: arrPoint,
+                strokeColor: "#DD0000",
+                strokeWeight: 6,
+                map: map
+            });
+            resultdrawArr.push(polyline_);
+        }
+
+        //초기화 기능
+        function resettingMap() {
+            //기존마커는 삭제
+            if (markerArr_s.length > 0) {
+                markerArr_s[0].setMap(null);
+
+            }
+            if (markerArr_e.length > 0) {
+                markerArr_e[0].setMap(null);
+            }
+            if (resultdrawArr.length > 0) {
+                for (var i = 0; i < resultdrawArr.length; i++) {
+                    resultdrawArr[i].setMap(null);
+                }
+            }
+            drawInfoArr = [];
+            resultdrawArr = [];
+        }
   </script>
 </head>
 
@@ -122,65 +299,22 @@
                 <div id="map" class="align-items-center me-5 mb-5"></div>
                 <!--설명 나와야 하는 부분-->
                     <form class="position-relative align-items-center">
-                        출발지 <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
-                        도착지 <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
+                        출발지 <input class="form-control-plaintext border p-2 mt-1 mb-3" id="start" type="text" readonly>
+                        도착지 <input class="form-control-plaintext border p-2 mt-1 mb-3" id="end"type="text" readonly>
                         <div class="row">
                           <div class="col-md-6">
                             날짜 <input type="text" id="datePicker" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
                           </div>
                           <div class="col-md-6">
-                            시간 <input type="text" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
+                            시간 <input type="text" id="daytime" class="form-control-plaintext border p-2 mt-1 mb-3" readonly>
                           </div>
                         </div>
-                        예상가격 (1인당) <input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" readonly>
+                        예상가격 (1인당) <input class="form-control-plaintext border p-2 mt-1 mb-3" id="price" type="text" readonly>
                         상세설명 <textarea class="form-control-plaintext border p-2 mt-1 mb-3" id="floatingTextarea2" style="height: 12rem; resize: none;" readonly></textarea>
                         <div class="d-flex justify-content-end mt-5">
-                            <p class="pt-2">
-                              <% 
-                              // taxi 테이블에서 people 값 가져옴
-                              // MySQL JDBC Driver Loading
-                              Class.forName("com.mysql.cj.jdbc.Driver"); 
-                              Connection conn =null;
-                              PreparedStatement pstmt = null;
-                              ResultSet rs =null;
- 
-                              int people = 1;  // 인원수
-
-                              try {
-                              String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
-                              String dbUser ="taxi"; //mysql id
-                              String dbPass ="1234"; //mysql password
-                    
-                              String sql = "select people from taxi where group_num = ?";
-                              // Create DB Connection
-                              conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
-                              // Create Statement
-                              pstmt = conn.prepareStatement(sql);
-                    
-                              //pstmt 생성
-                              pstmt.setString(1,num);
-
-                              // Run Qeury
-                              rs = pstmt.executeQuery();
-                              // Print Result (Run by Query)
-           
-                              while(rs.next()){
-                                people = rs.getInt(people);
-                                out.println(people);
-                              }
-    
-                              } catch(SQLException ex) {
-                                out.println(ex.getMessage());
-                                ex.printStackTrace();
-                              } finally {
-                              // Close Statement
-                                if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
-                                if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
-                                // Close Connection
-                                if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
-                                }
-                              %>
-                              /4</p>
+                            <p class="pt-2" id="join">
+                              
+                            </p>
                             <button class="btn btn-primary col-lg-2 col-md-2 col-5 ms-3 fs-6" type="sumbit" id="join" formaction="enter.jsp">참가</button>
                         </div>
                       </form>
