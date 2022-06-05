@@ -33,7 +33,7 @@
         String dbPass ="1234";
         
         //질의문 형태로 저장 - txai정보 저장
-        String sql ="INSERT INTO taxi(group_num, start, end, day, daytime, people, price, div_price, detail, completion) values(?,?,?,?,?,?,?,?,?,?)";
+        String sql ="INSERT INTO taxi(group_num, start, end, day, daytime, people, price, div_price, detail, completion, total_p) values(?,?,?,?,?,?,?,?,?,?,?)";
         
         //db 연결
         conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
@@ -50,6 +50,7 @@
         pstmt.setInt(8,uprice);
         pstmt.setString(9,utext);
         pstmt.setInt(10,ucompletion);
+        pstmt.setInt(11,upeople);
 
         //db에 정보 저장 - taxi 정보
         pstmt.executeUpdate();
