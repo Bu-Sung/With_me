@@ -195,7 +195,7 @@
                   </a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover mx-2">
-                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="reservation" href="reservation.jsp">
+                  <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="reservation" href="reservation.html">
                     <i class="material-icons opacity-6 me-2 text-md">view_day</i>
                     예약내역
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
@@ -204,7 +204,7 @@
                 </li>
                 <li class="nav-item dropdown dropdown-hover mx-2">
                   <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="logout" href="sign-in.jsp">
-                    <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+                    <i class="material-icons opacity-6 me-2 text-md">article</i>
                     로그아웃
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
                     <img class="arrow ms-auto ms-md-2 d-lg-none d-block">
@@ -252,10 +252,11 @@
         <form class="position-relative px-md-2 px-sm-5 mx-auto">
           <div class="d-flex justify-content-center align-items-center mb-2">
             <div class="col-lg-6">
+
               <input class="form-control me-2 border p-2 m-2" id="start" type="search" placeholder="출발지" aria-label="Search">
               <input class="form-control me-2 border p-2 m-2" id="end" type="search" placeholder="도착지" aria-label="Search">
             </div>
-            <button class="btn btn-outline-success my-1 p-4 ms-4 fs-6" type="button" id="input" onclick="reload_list();">조회</button>
+            <button class="btn btn-outline-success my-1 p-4 ms-4 fs-6" type="button" onclick="reload_list();">조회</button>
           </div>
         </form>
           <div  class="row justify-content-center text-center my-sm-5" >
@@ -276,8 +277,8 @@
                 <tr>
                   <th scope="col" style="text-align: center;" >번호</th>
                   <th scope="col" style="width: 15%;">시간</th>
-                  <th scope="col" style="width: 35%;" >출발지</th>
-                  <th scope="col" style="width: 35%;">도착지</th>
+                  <th scope="col" style="width: 37%;" >출발지</th>
+                  <th scope="col" style="width: 37%;">도착지</th>
                 </tr>
               </thead>
               
