@@ -1,4 +1,10 @@
-<!--틀만 만들어둔 상태-->
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+    <%@ page import ="java.sql.*" %>
+
+    
+
+    <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
@@ -29,7 +35,7 @@
   <!-- Navbar Transparent -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
-      <a class="navbar-brand  text-white " href="main.html" data-placement="bottom">
+      <a class="navbar-brand  text-white " href="main.jsp" data-placement="bottom">
         함께 갈래요?
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +50,7 @@
         <ul class="navbar-nav navbar-nav-hover ms-auto">
           <!--첫 번째 메뉴(마이페이지)-->
           <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="myPage.jsp">
               <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
               마이페이지
               <img class="arrow ms-2 d-lg-block d-none">
@@ -53,9 +59,17 @@
           </li>
           <!--두 번째 메뉴(예약 내역)-->
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.jsp">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
+              <img class="arrow ms-2 d-lg-block d-none">
+              <img class="arrow ms-2 d-lg-none d-block">
+            </a>
+          </li>
+          <li class="nav-item dropdown dropdown-hover mx-2">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="sign-in.jsp">
+              <i class="material-icons opacity-6 me-2 text-md">article</i>
+              로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
             </a>
@@ -103,21 +117,69 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">부산시 부산진구 가야동</td>
-                    <td>동의대학교 정보공학관</td>
-                    <td>3800￦</td>
-                  </tr>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">출발지1</td>
-                    <td>도착지1</td>
-                    <td>가격1</td>
-                  </tr>
-                  <tr onClick="location.href='#'" style="cursor:pointer;">
-                    <td scope="row">출발지2</td>
-                    <td>도착지2</td>
-                    <td>가격2</td>
-                  </tr>
+                  <% // MySQL JDBC Driver Loading
+                  Class.forName("com.mysql.cj.jdbc.Driver"); 
+                  Connection conn =null;
+                  PreparedStatement pstmt = null;
+                  ResultSet rs =null;
+    
+                  String uid = session.getAttribute("sid").toString();
+                  String start = null;
+                  String end = null;
+                  String price = null;
+                  short completion = 0;
+
+                    try {
+                    String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
+                    String dbUser ="taxi"; //mysql id
+                    String dbPass ="1234"; //mysql password
+                        
+                    String sql = "select taxi.start, taxi.end, taxi.price, taxi.completion from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
+    
+                    // Create DB Connection
+                    conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+                    // Create Statement
+                    pstmt = conn.prepareStatement(sql);
+                        
+                    //pstmt 생성
+                    pstmt.setString(1,uid);
+                    pstmt.setString(2,uid);
+                    pstmt.setString(3,uid);
+                    pstmt.setString(4,uid);
+                        
+                    // Run Qeury
+                    rs = pstmt.executeQuery();
+                    // Print Result (Run by Query)
+                        
+                    while(rs.next()) {
+
+                      // completion이 0인것만 테이블에 출력
+                      // 즉, 탑승이 완료되지 않은 그룹만 출력 
+                      if(rs.getInt("completion") == 0 ) {
+                        
+                        %>  
+                        <tr onClick="location.href='#'" style="cursor:pointer;">
+                        <td scope="row"> <% out.println(rs.getString("start")); %></td>
+                        <td> <% out.println(rs.getString("end")); %> </td>
+                        <td><% out.println(rs.getString("price")); %>￦</td>
+                        </tr>
+                        <%
+                      }
+
+                    } 
+                        
+                } catch(SQLException ex) {
+                    out.println(ex.getMessage());
+                    ex.printStackTrace();
+                } finally {
+                    // Close Statement
+                    if (rs !=null) try { rs.close(); } catch(SQLException ex) {}
+                    if (pstmt !=null) try { pstmt.close(); } catch(SQLException ex) {}
+                    // Close Connection
+                    if (conn !=null) try { conn.close(); } catch(SQLException ex) {}
+                }
+            %>
+                  
                 </tbody>
               </table>
             </div>

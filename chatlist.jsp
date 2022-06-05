@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-
+<%@ page import="mypackage.ConnectionPooltaxi" %>
 <html>
     <head>
         <meta charset="UTF-8"> <!--한글 깨짐 UTF-8형식으로 인코딩으로 개선-->
@@ -20,21 +20,19 @@
 
         String htmlchatname = request.getParameter("attend");
 
-        String sql = "INSERT INTO chat(group_num) VALUES(?)";
+        String sql = "INSERT INTO grouptaxi(group_num) VALUES(?)";
         
-        Class.forName("com.mysql.cj.jdbc.Driver"); 
+        
         Connection conn =null;
         Statement stmt =null;
         ResultSet rs =null;
         
         try {
 
-            String jdbcDriver ="jdbc:mysql://49.50.166.159:3306/taxi?serverTimezone=UTC"; 
-            String dbUser ="tester"; //mysql id
-            String dbPass ="1234"; //mysql password
-            String query ="select distinct group_num from chat"; //query
+            
+            String query ="select group_num from grouptaxi"; //query
             // Create DB Connection
-            conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+            conn = ConnectionPooltaxi.get();
             // Create Statement
             stmt = conn.createStatement();
 

@@ -22,11 +22,8 @@
 
   <%
     String id_error=(String)session.getAttribute("id_error");
-    if (id_error!=null) { %>
-    <script type="text/javascript">
-      alert("중복된 아이디");
-    </script>
-  <% } %>
+    if (id_error==null) id_error="";
+  %>
 
   <%
     String pw_error=(String)session.getAttribute("pw_error");
@@ -62,10 +59,12 @@
 
             <div class="card-body">
               <form action="signUp.jsp" method="Get" role="form" class="text-start">
-                <div class="input-group input-group-outline my-3">
+                <div class="input-group input-group-outline mt-3">
                   <label class="form-label">Id</label>
                   <input type="text" name="id" class="form-control" required>
                 </div>
+                <!--에러메시지 출력-->
+                <div class="mb-3" id="id_error" style="color:#e91e63"><%=id_error%></div>
                 <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Password</label>
                   <input type="password" name="pw" class="form-control" required>

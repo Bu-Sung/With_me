@@ -54,7 +54,7 @@
         pstmt.setString(4,uphone);
 
         if(exist){ //아이디가 존재한다면
-            session.setAttribute("id_error", "err");
+            session.setAttribute("id_error", "이미 존재하는 아이디입니다.");
             response.sendRedirect("sign-up.jsp");
         }else{ //아이디가 존재하지 않는다면
             if(upass.equals(upass2)){
