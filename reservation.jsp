@@ -59,7 +59,7 @@
           </li>
           <!--두 번째 메뉴(예약 내역)-->
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.jsp">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
               <img class="arrow ms-2 d-lg-block d-none">
@@ -127,12 +127,14 @@
                   String start = null;
                   String end = null;
                   String price = null;
+                  short completion = 0;
+
                     try {
                     String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
                     String dbUser ="taxi"; //mysql id
                     String dbPass ="1234"; //mysql password
                         
-                    String sql = "select taxi.start, taxi.end, taxi.price from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
+                    String sql = "select taxi.start, taxi.end, taxi.price, taxi.completion from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
     
                     // Create DB Connection
                     conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
@@ -151,6 +153,10 @@
                         
                     while(rs.next()) {
 
+                      // completion이 0인것만 테이블에 출력
+                      // 즉, 탑승이 완료되지 않은 그룹만 출력 
+                      if(rs.getInt("completion") == 0 ) {
+                        
                         %>  
                         <tr onClick="location.href='#'" style="cursor:pointer;">
                         <td scope="row"> <% out.println(rs.getString("start")); %></td>
@@ -158,6 +164,7 @@
                         <td><% out.println(rs.getString("price")); %>￦</td>
                         </tr>
                         <%
+                      }
 
                     } 
                         
