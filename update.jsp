@@ -79,7 +79,7 @@
 <body class="myPage bg-gray-200">
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
     <div class="container">
-      <a class="navbar-brand  text-white " href="main.html" data-placement="bottom">
+      <a class="navbar-brand  text-white " href="main.jsp" data-placement="bottom">
         함께 갈래요?
       </a>
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,7 @@
           </li>
           <!--두 번째 메뉴(예약 내역)-->
           <li class="nav-item dropdown dropdown-hover mx-2">
-            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.html">
+            <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.jsp">
               <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
               <img class="arrow ms-2 d-lg-block d-none">
