@@ -31,9 +31,10 @@
                     pstmt = conn.prepareStatement(setSql);
                     pstmt.setString(1,number);
                     pstmt.excutUpdate();
+                    session.setAttribute("ssuccess", "탑승이 완료되었습니다.");
                 }else{
                     //그룹내 리더가 아닐때
-
+                    session.setAttribute("success", "탑승이 완료되었습니다.");
                 }
              }else{
                 //채팅방이 존재하므로 예외처리 따로 안함

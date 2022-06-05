@@ -33,60 +33,13 @@
           var search_s = $('#start').val(); //출발지
           var search_e = $('#end').val(); //도착지
           //출발지 검색하고 신주소로 출력
-          $.ajax({
-              method: "GET",
-              url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
-              async: false,
-              data: {
-                  "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-                  "searchKeyword": search_s,
-                  "resCoordType": "EPSG3857",
-                  "reqCoordType": "WGS84GEO",
-                  "count": 1
-              },
-              success: function (response) {
-                  var resultpoisData = response.searchPoiInfo.pois.poi;    
-                  var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
-                  var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
-                  var pointCng = new Tmapv2.Point(noorLon, noorLat);
-                  var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-                  var lat = projectionCng._lat; 
-                  var lon = projectionCng._lng;
-                  var name = reverseGeo(lon, lat); //새주소로 이름 변경
-                  document.getElementById("start").value = name;// 검색된 내용으로 상세 표시 
-              },
-              error: function (request, status, error) {
-                  console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-              }
-          });
+          let [x1, y1] = toPoint($('#start').val());
+          document.getElementById("start").value = reverseGeo(x1, y1);
           //도착지 검색하고 신주소로 출력
-          $.ajax({
-              method: "GET",
-              url: "https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
-              async: false,
-              data: {
-                  "appKey": "l7xx34fbc458caac49f6b3fd63b8e1dcadd5",
-                  "searchKeyword": search_e,
-                  "resCoordType": "EPSG3857",
-                  "reqCoordType": "WGS84GEO",
-                  "count": 1
-              },
-              success: function (response) {
-                  var resultpoisData = response.searchPoiInfo.pois.poi;    
-                  var noorLat = Number(resultpoisData[0].noorLat); // 좌표의 경도
-                  var noorLon = Number(resultpoisData[0].noorLon); // 좌표의 위도
-                  var pointCng = new Tmapv2.Point(noorLon, noorLat);
-                  var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
-                  var lat = projectionCng._lat; 
-                  var lon = projectionCng._lng;
-                  var name = reverseGeo(lon, lat); //새주소로 이름 변경
-                  document.getElementById("end").value = name;// 검색된 내용으로 상세 표시 
-              },
-              error: function (request, status, error) {
-                  console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-              }
-          });
-
+          let [x2, y2] = toPoint($('#end').val());
+          document.getElementById("start").value = reverseGeo(x2, y2);
+          
+          //조회 목록
           $("#list > tr").remove();
           var list=null;
           <%
@@ -133,7 +86,8 @@
           })
         }     
 
-        //초기 로딩 시 
+        //초기 로딩 시
+
     </script>
 </head>
 
@@ -222,7 +176,6 @@
         <form class="position-relative px-md-2 px-sm-5 mx-auto">
           <div class="d-flex justify-content-center align-items-center mb-2">
             <div class="col-lg-6">
-
               <input class="form-control me-2 border p-2 m-2" id="start" type="search" placeholder="출발지" aria-label="Search">
               <input class="form-control me-2 border p-2 m-2" id="end" type="search" placeholder="도착지" aria-label="Search">
             </div>
