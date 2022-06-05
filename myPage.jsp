@@ -117,7 +117,7 @@
           </li>
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuPages8" href="sign-in.jsp">
-              <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+              <i class="material-icons opacity-6 me-2 text-md">article</i>
               로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
