@@ -12,6 +12,7 @@
     String user_pw = null;
     String user_name = null;
     String user_phone = null;
+    String address = null;
     try {
         String jdbcDriver ="jdbc:mysql://118.67.129.235:3306/with_me?serverTimezone=UTC"; 
         String dbUser ="taxi"; //mysql id
@@ -36,6 +37,7 @@
             user_pw = rs.getString("user_pw");
             user_name = rs.getString("user_name");
             user_phone = rs.getString("user_phone");
+            address = rs.getString("address");
           } 
                         
     } catch(SQLException ex) {
@@ -137,13 +139,13 @@
               </div>
             </div>
             <div class="col-lg-8 col-md-8 mt-4 px-md-2 px-sm-5 mx-auto">
-              <form class="justify-content-center my-sm-5 align-items-center mt-4">
+              <form class="justify-content-center my-sm-5 align-items-center mt-4" method="post" accept-charset="utf-8">
                 <!--아이디 수정 불가-->
                 아이디<input class="form-control-plaintext border p-2 mt-1 mb-3" type="text" name = "user_id" value = <%= uid %> readonly >
                 이름 <input class="form-control border p-2 mt-1 mb-3" type="text" name = "user_name" value = <%= user_name %> placeholder="이름">
                 비밀번호 <input class="form-control border p-2 mt-1 mb-3" type="text" name = "user_pw" value = <%= user_pw %> placeholder="비밀번호">
                 전화번호 <input class="form-control border p-2 mt-1 mb-3" type="text" name = "user_phone" value = <%= user_phone %> placeholder="전화번호">
-                위치 <input class="form-control border p-2 mt-1 mb-3" type="text" name = "location" placeholder="위치">
+                위치 <input class="form-control border p-2 mt-1 mb-3" type="text" name = "location" value = <%= address %> placeholder="위치">
                 <div class="d-flex align-items-end flex-column">
 
                 <button type="submit" class="btn btn-primary mt-3 fs-6" formaction="updateCheck.jsp">
