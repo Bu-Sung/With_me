@@ -176,8 +176,10 @@
                 <table class="table">
                   <thead class="table-light">
                     <tr>
+                      <th scope="col">날짜</th>
                       <th scope="col">출발지</th>
                       <th scope="col">도착지</th>
+                      <th scope="col">가격</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -196,7 +198,7 @@
                 String dbUser ="taxi"; //mysql id
                 String dbPass ="1234"; //mysql password
                         
-                String sql = "select taxi.start, taxi.end from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
+                String sql = "select * from taxi  where group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
     
                 // Create DB Connection
                 conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
@@ -217,8 +219,11 @@
 
                   %>  
                 <tr onClick="location.href='#'" style="cursor:pointer;">
-                <td scope="row"> <% out.println(rs.getString("start")); %></td>
+
+                <td scope="row"> <% out.println(rs.getString("day")+"\n"+rs.getString("daytime")); %></td>
+                <td > <% out.println(rs.getString("start")); %></td>
                 <td> <% out.println(rs.getString("end")); %> </td>
+                <td> <% out.println(rs.getString("div_price")); %> </td>
                 </tr>
                   <%
 
