@@ -255,7 +255,7 @@
           <!--두 번째 메뉴(예약 내역)-->
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" id="dropdownMenuBlocks" href="reservation.jsp">
-              <i class="material-icons opacity-6 me-2 text-md">article</i>
+              <i class="material-icons opacity-6 me-2 text-md">view_day</i>
               예약내역
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">
@@ -263,7 +263,7 @@
           </li>
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="logout" href="sign-in.jsp">
-              <i class="material-icons opacity-6 me-2 text-md">view_day</i>
+              <i class="material-icons opacity-6 me-2 text-md">article</i>
               로그아웃
               <img class="arrow ms-2 d-lg-block d-none">
               <img class="arrow ms-2 d-lg-none d-block">

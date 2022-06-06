@@ -109,7 +109,7 @@
                 </li>
                 <li class="nav-item dropdown dropdown-hover mx-2">
                   <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="logout"href="sign-in.jsp">
-                    <i class="material-icons opacity-6 me-2 text-md">view_day</i>
+                    <i class="material-icons opacity-6 me-2 text-md">article</i>
                     로그아웃
                     <img class="arrow ms-auto ms-md-2 d-lg-block d-none">
                     <img class="arrow ms-auto ms-md-2 d-lg-none d-block">
