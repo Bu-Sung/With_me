@@ -142,6 +142,7 @@
       markerArr_s.push(marker_s); //마커를 누르면 상세 주소
       
       //정보설정
+      $('h3').text(user);
       document.getElementById("datePicker").value = day;
       document.getElementById("daytime").value = daytime;
       document.getElementById("price").value = price;
