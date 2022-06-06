@@ -162,7 +162,7 @@
                         %>  
                         <tr onClick="location.href='#'" style="cursor:pointer;">
                         <td scope="row">  <% out.println(rs.getString("group_num")); %></td>
-                        <td >  <% out.println(rs.getString("day")+"\n"+rs.getString("daytime")); %></td>
+                        <td >  <% out.println(rs.getString("day"));%><br><%out.println(rs.getString("daytime")); %></td>
                         <td > <% out.println(rs.getString("start")); %></td>
                         <td> <% out.println(rs.getString("end")); %> </td>
                         <td><% out.println(rs.getString("div_price")); %>￦</td>
