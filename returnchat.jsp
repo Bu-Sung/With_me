@@ -22,9 +22,6 @@ pageEncoding="UTF-8"%>
     if (chatting != null){
         dao.enterchat(chatroomname,uid,chatting);
     } 
-
-    
-
 %>
 <html>
 <head>

@@ -125,9 +125,6 @@
                   PreparedStatement pstmt = null;
                   ResultSet rs =null;
 
-                  Statement stmt =null;
-                  ResultSet rs2 =null;
-    
                   String uid = session.getAttribute("sid").toString();
                   String start = null;
                   String end = null;
@@ -139,13 +136,9 @@
                     String dbUser ="taxi"; //mysql id
                     String dbPass ="1234"; //mysql password
                         
-                    String sql = "select taxi.start, taxi.end, taxi.price, taxi.completion from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
-                    
-                    String sql2 = "select t.group_num, m.leader, m.one, m.two, m.three  from taxi t join member m using(group_num)";
+                    String sql = "select taxi.start, taxi.end, taxi.price, taxi.completion, taxi.group_num from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
                     
                     conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
-                    stmt = conn.createStatement();
-                    rs2 = stmt.executeQuery(sql2);
                     
                     pstmt = conn.prepareStatement(sql);
                         
@@ -158,15 +151,14 @@
                     
                     rs = pstmt.executeQuery();
                     
-                    
                     while(rs.next()) {
 
                       // completion이 0인것만 테이블에 출력
                       // 즉, 탑승이 완료되지 않은 그룹만 출력 
                       if(rs.getInt("completion") == 0 ) {
-                        
+                        String htmlchatname = rs.getString("group_num");
                         %>  
-                        <tr onClick="location.href='#'" style="cursor:pointer;">
+                        <tr onclick="location.href='chat.jsp?chatroomname=<%=htmlchatname%>'" style="cursor:pointer;">
                         <td scope="row"> <% out.println(rs.getString("start")); %></td>
                         <td> <% out.println(rs.getString("end")); %> </td>
                         <td><% out.println(rs.getString("price")); %>￦</td>
@@ -174,7 +166,8 @@
                         <%
                       }
 
-                    } 
+                    }
+                  
                         
                 } catch(SQLException ex) {
                     out.println(ex.getMessage());
