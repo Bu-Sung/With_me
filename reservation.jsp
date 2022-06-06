@@ -158,7 +158,7 @@
                       // completion이 0인것만 테이블에 출력
                       // 즉, 탑승이 완료되지 않은 그룹만 출력 
                       if(rs.getInt("completion") == 0 ) {
-                        
+                         
                         %>  
                         <tr onClick="location.href='#'" style="cursor:pointer;">
                         <td scope="row">  <% out.println(rs.getString("group_num")); %></td>
