@@ -1,5 +1,9 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import ="java.sql.*" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="mypackage.ChatDAO" %>
+<%@ page import="mypackage.ConnectionPooltaxi" %>
+<%@ page import="mypackage.ChatObj" %>
 <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
@@ -30,10 +34,46 @@
         location.href = "completion.jsp?num="+num;
       }
   </script>
+  <script type="text/javascript">
+
+    function notify() {
+        var chatname = document.getElementsByName('chatroomname')[0].value;
+        var message = document.getElementsByName('chatting')[0].value;
+        if (Notification.permission == 'default') {
+            alert('알림 설정을 허용해 주세요 좌측 상단에 있습니다.');
+            Notification.requestPermission();
+            alert('3초 뒤에 알림이 닫히고 알림을 누르면 메인 페이지로 이동 가능합니다');
+        }
+        else if(message != null){
+            var notification = new Notification( chatname, {
+                icon: './assets/image/taxi.jpg',
+                body: message,
+            });
+    
+            
+        }
+        setTimeout(function(){
+          notification.close(); }, 3000);
+    }
+    </script>
 </head>
 
 <body class="chat">
-  
+  <%
+    response.setContentType("text/html; charset=utf-8"); 
+    response.setCharacterEncoding("utf-8");
+    request.setCharacterEncoding("utf-8");
+
+    String chatroomname = request.getParameter("chatroomname");
+    String chatting = request.getParameter("chatting");
+    if(request.getParameter("chatting") == null){
+      chatting = "hello";
+    }
+
+    ChatDAO dao = new ChatDAO();
+  ArrayList<ChatObj> chats = dao.getList(chatroomname);
+
+  %>
   <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
       <div class="col-12">
@@ -89,7 +129,14 @@
       <div class="row">
         <div class="col-lg-10 col-md-10 col-12 mx-auto">
           <div class="card mt-7 position-relative">
-            <h5 class="card-header col-12 bg-light position-absolute" id="number">7662</h5>
+            <h5 class="card-header col-12 bg-light position-absolute" id="number">
+              <% 
+                if(chatroomname != null)
+                  out.print(chatroomname);
+                else
+                  out.print("제목 없음");
+              %>
+            </h5>
             <div class="d-flex justify-content-end">
               <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" style="height: 4.7rem;" data-bs-toggle="dropdown" aria-expanded="false">
@@ -104,11 +151,37 @@
               <!--일정 크기 이상되면 스크롤바 생기도록 설정-->
               <!--채팅 가져올 때, 스크롤바 아래로 가도록 설정해야함-->
               <div class="scroll mb-4" style="height: 20rem; overflow: scroll;">
-                <p>채팅 내용 입력</p>
+                <%
+                        
+                for(ChatObj ch: chats) {
+                %>
+                    <%
+                    String user = ch.getSender();
+                    String message = ch.getMessage();
+
+                    if(user.equals("Tom")){
+                    %>
+                  <p style="text-align:right;"> 
+                  <% }
+                  else
+                  {
+                    %><p style="text-align:left;"> 
+                  
+                    <%} out.print(user); %> <br>
+                    <% out.print(message); %> <br>
+                    <% out.print(ch.getTime()); %> </p>
+                  <%
+                    
+                  }
+                  
+                  %>
               </div>
+              <form action="returnchat.jsp" method="post" >       
+                <input type="hidden" name="chatroomname" value=<%=chatroomname%> >
               <div class="d-flex justify-content-end">
-                <textarea class="form-control border p-2 me-2" style="height:3rem; resize: none;" placeholder="메시지를 입력하세요."></textarea>
-                <button class="btn btn-primary" style="height:3rem; width:5rem;" type="button" id="chat">전송</input>
+                <textarea class="form-control border p-2 me-2" style="height:3rem; resize: none;" placeholder="메시지를 입력하세요." name="chatting" required></textarea>
+              <button onclick="notify()" type="submit" class="btn btn-primary" style="height:3rem; width:5rem;">전송</button>
+              </form>  
               </div>
             </div>
           </div>
