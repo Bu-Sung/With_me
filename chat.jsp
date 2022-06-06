@@ -2,7 +2,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="mypackage.ChatDAO" %>
-<%@ page import="mypackage.ConnectionPooltaxi" %>
+<%@ page import="mypackage.ConnectionPoolwith_me" %>
 <%@ page import="mypackage.ChatObj" %>
 <!--틀만 만들어둔 상태-->
 <!DOCTYPE html>
@@ -56,6 +56,9 @@
           notification.close(); }, 3000);
     }
     </script>
+    <script language='javascript'> 
+      window.setTimeout('window.location.reload()',10000); //10초마다 리플리쉬 시킨다 1000이 1초가 된다. 
+     </script> 
 </head>
 
 <body class="chat">
@@ -64,6 +67,8 @@
     response.setCharacterEncoding("utf-8");
     request.setCharacterEncoding("utf-8");
 
+    String uid = session.getAttribute("sid").toString();
+    session.setAttribute("sid", uid);
     String chatroomname = request.getParameter("chatroomname");
     String chatting = request.getParameter("chatting");
     if(request.getParameter("chatting") == null){
@@ -159,7 +164,7 @@
                     String user = ch.getSender();
                     String message = ch.getMessage();
 
-                    if(user.equals("Tom")){
+                    if(user.equals(uid)){
                     %>
                   <p style="text-align:right;"> 
                   <% }
@@ -180,7 +185,10 @@
                 <input type="hidden" name="chatroomname" value=<%=chatroomname%> >
               <div class="d-flex justify-content-end">
                 <textarea class="form-control border p-2 me-2" style="height:3rem; resize: none;" placeholder="메시지를 입력하세요." name="chatting" required></textarea>
-              <button onclick="notify()" type="submit" class="btn btn-primary" style="height:3rem; width:5rem;">전송</button>
+                if(!user.equals(uid)){
+                <button onclick="notify()" type="submit" class="btn btn-primary" style="height:3rem; width:5rem;">전송</button>
+                }
+                else{ }
               </form>  
               </div>
             </div>

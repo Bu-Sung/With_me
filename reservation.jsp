@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
     <%@ page import ="java.sql.*" %>
-
+    <%@ page import="mypackage.ChatDAO" %>
+    <%@ page import="mypackage.ConnectionPoolwith_me" %>
+    <%@ page import="mypackage.ChatObj" %>
     
 
     <!--틀만 만들어둔 상태-->
@@ -117,11 +119,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% // MySQL JDBC Driver Loading
+                  <% 
                   Class.forName("com.mysql.cj.jdbc.Driver"); 
                   Connection conn =null;
                   PreparedStatement pstmt = null;
                   ResultSet rs =null;
+
+                  Statement stmt =null;
+                  ResultSet rs2 =null;
     
                   String uid = session.getAttribute("sid").toString();
                   String start = null;
@@ -135,10 +140,13 @@
                     String dbPass ="1234"; //mysql password
                         
                     String sql = "select taxi.start, taxi.end, taxi.price, taxi.completion from taxi  where taxi.group_num in ( select member.group_num from member where member.leader = ? or member.one =? or member.two =?  or member.three =?  )";
-    
-                    // Create DB Connection
+                    
+                    String sql2 = "select t.group_num, m.leader, m.one, m.two, m.three  from taxi t join member m using(group_num)";
+                    
                     conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
-                    // Create Statement
+                    stmt = conn.createStatement();
+                    rs2 = stmt.executeQuery(sql2);
+                    
                     pstmt = conn.prepareStatement(sql);
                         
                     //pstmt 생성
@@ -146,11 +154,11 @@
                     pstmt.setString(2,uid);
                     pstmt.setString(3,uid);
                     pstmt.setString(4,uid);
-                        
-                    // Run Qeury
+                    
+                    
                     rs = pstmt.executeQuery();
-                    // Print Result (Run by Query)
-                        
+                    
+                    
                     while(rs.next()) {
 
                       // completion이 0인것만 테이블에 출력
