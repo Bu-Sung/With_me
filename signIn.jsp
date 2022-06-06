@@ -39,7 +39,11 @@
         if(rs.next()){ //입력받은 아이디와 db에 저장되어 있는 아이디 비교
                 if(upw.equals(rs.getString("user_pw")) ==true){ //비밀번호 일치
                 //로그인 성공시 main.html로 이동
-                response.sendRedirect("main.jsp");
+                %>
+                <script type="text/javascript">
+                      location.href = "main.jsp";
+                </script>
+                <%
             } else{ //비밀번호 불일치
                 session.setAttribute("error", "err");
                 response.sendRedirect("sign-in.jsp");
