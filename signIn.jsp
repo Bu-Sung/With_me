@@ -38,7 +38,7 @@
         
         if(rs.next()){ //입력받은 아이디와 db에 저장되어 있는 아이디 비교
                 if(upw.equals(rs.getString("user_pw")) ==true){ //비밀번호 일치
-                //로그인 성공시 main.html로 이동
+                //로그인 성공시 main.jsp로 이동
                 %>
                 <script type="text/javascript">
                       location.href = "main.jsp";
