@@ -43,7 +43,7 @@
                 <script type="text/javascript">
                       location.href = "main.jsp";
                 </script>
-                <%
+                <% 
             } else{ //비밀번호 불일치
                 session.setAttribute("error", "err");
                 response.sendRedirect("sign-in.jsp");
