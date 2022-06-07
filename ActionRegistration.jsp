@@ -30,12 +30,12 @@
 
         //값 변수에 저장
         boolean num_exist=true;
-    
+        String ugroup_num=null;
     while(num_exist){
         int group_num_random = ((int) (Math.random() * (9999-1001)) + 1000); //그룹 번호
-        String ugroup_num = Integer.toString(group_num);
+        ugroup_num = Integer.toString(group_num_random);
 
-        While(rs.next()){
+        while(rs.next()){
             if(rs.getString("group_num").equals(ugroup_num)){ //입력받은 번호와 동일한 번호가 있는지 확인
                 num_exist =true; //있으면 true
             }else{

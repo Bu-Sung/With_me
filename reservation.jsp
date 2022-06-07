@@ -160,10 +160,6 @@
                       // 즉, 탑승이 완료되지 않은 그룹만 출력 
                       if(rs.getInt("completion") == 0 ) {
 
-                         
-                      
-                      
-
                         String htmlchatname = rs.getString("group_num");
                         %>  
                         <tr onclick="location.href='chat.jsp?chatroomname=<%=htmlchatname%>'" style="cursor:pointer;">

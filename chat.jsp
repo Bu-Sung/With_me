@@ -137,7 +137,7 @@
       <div class="row">
         <div class="col-lg-10 col-md-10 col-12 mx-auto">
           <div class="card mt-7 position-relative">
-            <h5 class="card-header col-12 bg-light position-absolute" id="number">
+            <h5 class="card-header col-12 bg-light position-absolute" >
               <% 
                 if(chatroomname != null)
                   out.print(chatroomname);
@@ -151,7 +151,7 @@
                   menu
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><button class="dropdown-item" type="button" onclick="completion();">그룹 번호</a></li>
+                  <li><button class="dropdown-item" type="button" onclick="completion();">탑승확인</a></li>
                 </ul>
               </div>
             </div>
