@@ -55,15 +55,16 @@
     </script>
   <%
     session.removeAttribute("success");
-   }*/ %>-->
+   }*/ %>
   <script type="text/javascript">
       function completion(){ // 탑승 완료시 처리
         var num = $('h5').html();
         alert(num);
         console.log(num);
-        location.href = "completion.jsp?num="+num;
+        location.href = "completion.jsp";
       }
   </script>
+  -->
   <script type="text/javascript">
 
     function notify() {
@@ -163,7 +164,7 @@
                   menu
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><button class="dropdown-item" type="button" onclick="completion();">탑승확인</a></li>
+                  <li><button class="dropdown-item" type="button" onclick="location.href = 'completion.jsp?num=<%=chatroomname%>';">탑승확인</a></li>
                 </ul>
               </div>
             </div>
