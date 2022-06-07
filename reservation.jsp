@@ -161,7 +161,7 @@
                       if(rs.getInt("completion") == 0 ) {
 
                          
-                        %>  
+                      
                       
 
                         String htmlchatname = rs.getString("group_num");
