@@ -46,9 +46,21 @@
   <!--js-->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx34fbc458caac49f6b3fd63b8e1dcadd5"></script>
+  <!--
+  <%/*
+    String error=(String)session.getAttribute("success");
+    if (error.equals("실패")) { %>
+    <script type="text/javascript">
+      alert("탑승완료는 방장만 할 수 있습니다!.");
+    </script>
+  <%
+    session.removeAttribute("success");
+   }*/ %>-->
   <script type="text/javascript">
       function completion(){ // 탑승 완료시 처리
         var num = $('h5').html();
+        alert(num);
+        console.log(num);
         location.href = "completion.jsp?num="+num;
       }
   </script>

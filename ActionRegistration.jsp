@@ -67,7 +67,7 @@
         pstmt.setString(3,uend);
         pstmt.setString(4,udate);
         pstmt.setString(5,utime);
-        pstmt.setInt(6,upeople);
+        pstmt.setInt(6,1);
         pstmt.setInt(7,utotal_price);
         pstmt.setInt(8,uprice);
         pstmt.setString(9,utext);
