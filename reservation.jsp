@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
     <%@ page import ="java.sql.*" %>
-
+    <%@ page import="mypackage.ChatDAO" %>
+    <%@ page import="mypackage.ConnectionPoolwith_me" %>
+    <%@ page import="mypackage.ChatObj" %>
     
 
     <!--틀만 만들어둔 상태-->
@@ -119,12 +121,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% // MySQL JDBC Driver Loading
+                  <% 
                   Class.forName("com.mysql.cj.jdbc.Driver"); 
                   Connection conn =null;
                   PreparedStatement pstmt = null;
                   ResultSet rs =null;
-    
+
                   String uid = session.getAttribute("sid").toString();
                   String start = null;
                   String end = null;
@@ -140,7 +142,7 @@
     
                     // Create DB Connection
                     conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
-                    // Create Statement
+                    
                     pstmt = conn.prepareStatement(sql);
                         
                     //pstmt 생성
@@ -148,29 +150,35 @@
                     pstmt.setString(2,uid);
                     pstmt.setString(3,uid);
                     pstmt.setString(4,uid);
-                        
-                    // Run Qeury
+                    
+                    
                     rs = pstmt.executeQuery();
-                    // Print Result (Run by Query)
-                        
+                    
                     while(rs.next()) {
 
                       // completion이 0인것만 테이블에 출력
                       // 즉, 탑승이 완료되지 않은 그룹만 출력 
                       if(rs.getInt("completion") == 0 ) {
+
                          
                         %>  
-                        <tr onClick="location.href='#'" style="cursor:pointer;">
-                        <td scope="row">  <% out.println(rs.getString("group_num")); %></td>
-                        <td >  <% out.println(rs.getString("day"));%><br><%out.println(rs.getString("daytime")); %></td>
-                        <td > <% out.println(rs.getString("start")); %></td>
+                      
+
+                        String htmlchatname = rs.getString("group_num");
+                        %>  
+                        <tr onclick="location.href='chat.jsp?chatroomname=<%=htmlchatname%>'" style="cursor:pointer;">
+                        
+                          <td scope="row">  <% out.println(rs.getString("group_num")); %></td>
+                          <td >  <% out.println(rs.getString("day"));%><br><%out.println(rs.getString("daytime")); %></td>
+                          <td > <% out.println(rs.getString("start")); %></td>
                         <td> <% out.println(rs.getString("end")); %> </td>
                         <td><% out.println(rs.getString("div_price")); %>￦</td>
                         </tr>
                         <%
                       }
 
-                    } 
+                    }
+                  
                         
                 } catch(SQLException ex) {
                     out.println(ex.getMessage());

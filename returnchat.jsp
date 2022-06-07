@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="mypackage.ChatDAO" %>
-<%@ page import="mypackage.ConnectionPooltaxi" %>
+<%@ page import="mypackage.ConnectionPoolwith_me" %>
 <%@ page import="mypackage.ChatObj" %>
 
 <%
@@ -13,17 +13,15 @@ pageEncoding="UTF-8"%>
 %>
 
 <%
+    String uid = session.getAttribute("sid").toString();
     String chatroomname = request.getParameter("chatroomname");
     String chatting = request.getParameter("chatting");
 
     ChatDAO dao = new ChatDAO();
 
     if (chatting != null){
-        dao.enterchat(chatroomname,"Tom",chatting);
+        dao.enterchat(chatroomname,uid,chatting);
     } 
-
-    
-
 %>
 <html>
 <head>
