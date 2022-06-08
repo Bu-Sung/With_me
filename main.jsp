@@ -97,8 +97,12 @@
       %>    
             
             var taxiTime = new Date('<%= rs.getString("day")%> <%= rs.getString("daytime")%>');
-            
-            if(!<%=rs.getShort("completion")%> && !nowTime<=taxiTime ){
+            console.log('<%= rs.getInt("people")%>');
+            console.log('<%= rs.getInt("total_p")%>');
+            if(<%= rs.getInt("people")%> < <%= rs.getInt("total_p")%>){
+              console.log("참가가능");
+            }
+            if(!<%=rs.getShort("completion")%> && !nowTime<=taxiTime && <%= rs.getInt("people")%> < <%= rs.getInt("total_p")%> ){
               slist.push(new taxi('<%= rs.getString("group_num")%>','<%= rs.getString("day")%>','<%= rs.getString("daytime")%>','<%= rs.getString("start")%>','<%= rs.getString("end")%>'));
             }
       <%
